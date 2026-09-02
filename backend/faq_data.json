@@ -1,0 +1,925 @@
+[
+  {
+    "id": 1,
+    "category": "Education",
+    "question": "How can I apply for admission?",
+    "answer": "You can apply for admission through the official online admission portal by submitting the online application form, uploading your required academic transcripts, and paying the application fee.",
+    "keywords": [
+      "apply admission",
+      "how to apply",
+      "want admission",
+      "college registration",
+      "application process",
+      "enroll college",
+      "admission portal"
+    ]
+  },
+  {
+    "id": 2,
+    "category": "Education",
+    "question": "What are the admission requirements and eligibility criteria?",
+    "answer": "For undergraduate courses, a minimum of 50% aggregate marks in 10+2 is required. For postgraduate programs, a recognized bachelor degree with at least 50% aggregate is required.",
+    "keywords": [
+      "eligibility criteria",
+      "admission requirements",
+      "marks needed",
+      "min marks admission",
+      "who can apply",
+      "qualification needed"
+    ]
+  },
+  {
+    "id": 3,
+    "category": "Education",
+    "question": "What documents are required for admission?",
+    "answer": "Required documents include 10th & 12th mark sheets, Transfer/Migration Certificate, Government Photo ID proof (Aadhaar/Passport), Passport-size photographs, and Entrance Scorecard if applicable.",
+    "keywords": [
+      "admission documents",
+      "documents needed",
+      "papers required",
+      "what certificates needed",
+      "transcripts",
+      "checklist admission"
+    ]
+  },
+  {
+    "id": 4,
+    "category": "Education",
+    "question": "When does the admission process start and what is the deadline?",
+    "answer": "Admissions generally open in May for the autumn academic term with a standard deadline of June 30th. Check the official portal for specific course dates.",
+    "keywords": [
+      "admission start date",
+      "admission deadline",
+      "last date apply",
+      "when open admission",
+      "cutoff date"
+    ]
+  },
+  {
+    "id": 5,
+    "category": "Education",
+    "question": "Can I apply online or after the deadline?",
+    "answer": "Yes, you can apply online via the admission portal. Applications after the deadline are subject to late fee charges and availability of vacant seats.",
+    "keywords": [
+      "apply online",
+      "online application",
+      "apply after deadline",
+      "late admission",
+      "vacant seats"
+    ]
+  },
+  {
+    "id": 6,
+    "category": "Education",
+    "question": "How can I check my admission status?",
+    "answer": "Log into the admission portal using your Application Registration ID and Date of Birth to check your live application and verification status.",
+    "keywords": [
+      "admission status",
+      "check status",
+      "application status",
+      "am i selected",
+      "merit list"
+    ]
+  },
+  {
+    "id": 7,
+    "category": "Education",
+    "question": "Is there an entrance exam or counseling process?",
+    "answer": "Selective professional courses (B.Tech, MBA, MCA) require valid national/state entrance exam ranks followed by online seat allotment counseling.",
+    "keywords": [
+      "entrance exam",
+      "counseling process",
+      "entrance test",
+      "seat allotment",
+      "cutoff rank"
+    ]
+  },
+  {
+    "id": 8,
+    "category": "Education",
+    "question": "How can I contact the admission office?",
+    "answer": "You can email the admission office at admission@college.edu or call the toll-free admission helpline at +1-800-555-0199 during working hours.",
+    "keywords": [
+      "contact admission office",
+      "admission phone number",
+      "admission email",
+      "helpdesk admission"
+    ]
+  },
+  {
+    "id": 9,
+    "category": "Education",
+    "question": "Are scholarships available for students?",
+    "answer": "Yes, merit-based scholarships, financial aid for economically weaker sections, and sports excellence awards are available. Apply via the Student Welfare section.",
+    "keywords": [
+      "scholarships",
+      "financial aid",
+      "fee waiver",
+      "scholarship eligibility",
+      "merit scholarship"
+    ]
+  },
+  {
+    "id": 10,
+    "category": "Education",
+    "question": "Can international or transfer students apply?",
+    "answer": "Yes, international applicants and credit-transfer candidates can apply through the International Admissions Cell with valid equivalence certificates.",
+    "keywords": [
+      "international students",
+      "foreign admission",
+      "transfer student",
+      "credit transfer"
+    ]
+  },
+  {
+    "id": 11,
+    "category": "Education",
+    "question": "What is the fee structure and how can I pay?",
+    "answer": "Tuition fee breakdowns per semester are available in the prospectus. You can pay online via UPI, Net Banking, Debit/Credit Card, or via Demand Draft at the accounts desk.",
+    "keywords": [
+      "fee structure",
+      "tuition fee",
+      "college fee",
+      "how to pay fee",
+      "installment fee",
+      "pay online fee"
+    ]
+  },
+  {
+    "id": 12,
+    "category": "Education",
+    "question": "When does the semester begin and when are semester exams conducted?",
+    "answer": "The autumn semester begins in August with final exams in December. The spring semester starts in January with final exams conducted in May.",
+    "keywords": [
+      "semester start",
+      "when semester begins",
+      "exam dates",
+      "semester exams",
+      "finals date"
+    ]
+  },
+  {
+    "id": 13,
+    "category": "Education",
+    "question": "Where can I download my admit card and check exam schedule?",
+    "answer": "Log into the examination portal using your Student Enrollment ID to view the exam schedule and download your hall ticket/admit card.",
+    "keywords": [
+      "download admit card",
+      "hall ticket",
+      "exam schedule",
+      "exam timetable",
+      "date sheet"
+    ]
+  },
+  {
+    "id": 14,
+    "category": "Education",
+    "question": "What happens if I miss an exam or want re-examination?",
+    "answer": "If you miss an exam due to verified illness, submit a medical certificate within 3 days for supplementary exams. Revaluation applications open 10 days post-results.",
+    "keywords": [
+      "missed exam",
+      "miss exam sick",
+      "revaluation",
+      "supplementary exam",
+      "rechecking paper"
+    ]
+  },
+  {
+    "id": 15,
+    "category": "Education",
+    "question": "How can I check my results and calculate my GPA?",
+    "answer": "Grade sheets are published on the student portal. GPA is calculated on a 10-point scale based on course credit weightage and letter grades earned.",
+    "keywords": [
+      "check results",
+      "exam results",
+      "gpa calculation",
+      "grade sheet",
+      "cgpa"
+    ]
+  },
+  {
+    "id": 16,
+    "category": "Education",
+    "question": "What is the attendance requirement and what if attendance is low?",
+    "answer": "A minimum of 75% attendance in lectures and practical labs is mandatory. Students falling below 75% without valid medical leave may be debarred from exams.",
+    "keywords": [
+      "attendance requirement",
+      "75 percent attendance",
+      "low attendance",
+      "shortage attendance",
+      "medical leave attendance"
+    ]
+  },
+  {
+    "id": 17,
+    "category": "Education",
+    "question": "Is hostel accommodation available and how to apply?",
+    "answer": "Yes, separate hostels for male and female students with mess facilities and Wi-Fi are available. Annual hostel fees range from ₹60,000 to ₹80,000 depending on room occupancy.",
+    "keywords": [
+      "hostel accommodation",
+      "hostel fee",
+      "dormitory",
+      "hostel room",
+      "mess fee",
+      "apply hostel"
+    ]
+  },
+  {
+    "id": 18,
+    "category": "Education",
+    "question": "What are the library opening hours and borrowing rules?",
+    "answer": "The Central Library is open 8:00 AM to 8:00 PM on weekdays. Students can borrow up to 3 books for 14 days using their student ID card.",
+    "keywords": [
+      "library timings",
+      "library hours",
+      "borrow book",
+      "how many books borrow",
+      "library rules"
+    ]
+  },
+  {
+    "id": 19,
+    "category": "Education",
+    "question": "Is Wi-Fi, transportation, or cafeteria available on campus?",
+    "answer": "Yes, campus-wide high-speed Wi-Fi, multi-route bus transport for day scholars, a food cafeteria, computer labs, and sports grounds are fully available.",
+    "keywords": [
+      "wifi on campus",
+      "campus facilities",
+      "bus transport",
+      "cafeteria",
+      "sports facilities"
+    ]
+  },
+  {
+    "id": 20,
+    "category": "Education",
+    "question": "How can I get a student ID card, duplicate certificate, or academic transcripts?",
+    "answer": "Student ID cards are issued during orientation. Academic transcripts and duplicate certificates can be requested through the Registrar Portal.",
+    "keywords": [
+      "student id card",
+      "academic transcript",
+      "duplicate certificate",
+      "lost id card"
+    ]
+  },
+  {
+    "id": 21,
+    "category": "E-commerce",
+    "question": "How can I place an order?",
+    "answer": "Browse products, click Add to Cart, proceed to checkout, enter your shipping address, select a payment method, and click Place Order.",
+    "keywords": [
+      "place order",
+      "how to buy",
+      "order product",
+      "checkout item",
+      "purchase online"
+    ]
+  },
+  {
+    "id": 22,
+    "category": "E-commerce",
+    "question": "How can I track my order and where is my package?",
+    "answer": "Go to My Orders in your account, select the item, and tap Track Package to see real-time courier GPS updates, transit status, and expected delivery date.",
+    "keywords": [
+      "track order",
+      "where is my order",
+      "where is my package",
+      "track my order",
+      "order status",
+      "has my order shipped",
+      "when will my order arrive",
+      "order hasnt arrived",
+      "check delivery status"
+    ]
+  },
+  {
+    "id": 23,
+    "category": "E-commerce",
+    "question": "How can I cancel my order or change delivery address?",
+    "answer": "You can cancel your order from My Orders as long as it has not been packed or dispatched from the warehouse.",
+    "keywords": [
+      "cancel order",
+      "modify order",
+      "change delivery address",
+      "stop shipment",
+      "cancel item"
+    ]
+  },
+  {
+    "id": 24,
+    "category": "E-commerce",
+    "question": "What happens if my order is delayed or lost?",
+    "answer": "If your shipment exceeds the estimated delivery window, tap Help in My Orders to initiate a courier trace or request a free replacement/refund.",
+    "keywords": [
+      "order delayed",
+      "late package",
+      "lost parcel",
+      "order not arrived",
+      "delayed shipping"
+    ]
+  },
+  {
+    "id": 25,
+    "category": "E-commerce",
+    "question": "How long does delivery take and is express shipping available?",
+    "answer": "Standard delivery takes 3 to 5 business days. Express 1-2 day delivery is available for select pincodes during checkout.",
+    "keywords": [
+      "delivery time",
+      "how long delivery",
+      "express shipping",
+      "fast delivery",
+      "shipping days"
+    ]
+  },
+  {
+    "id": 26,
+    "category": "E-commerce",
+    "question": "How can I return my order or request a refund?",
+    "answer": "Go to My Orders, select the product, click Return/Exchange, choose your reason, and schedule a pickup. Refunds are issued after warehouse inspection.",
+    "keywords": [
+      "return product",
+      "how to return",
+      "request refund",
+      "return policy",
+      "exchange product",
+      "return damaged item",
+      "defective product return",
+      "return order"
+    ]
+  },
+  {
+    "id": 27,
+    "category": "E-commerce",
+    "question": "How long does a refund take to credit to my account?",
+    "answer": "Once approved, refunds credit back in 24–48 hours for UPI/wallets and 3–5 business days for credit/debit cards and bank accounts.",
+    "keywords": [
+      "refund status",
+      "how long refund",
+      "refund money",
+      "when refund credited",
+      "check refund"
+    ]
+  },
+  {
+    "id": 28,
+    "category": "E-commerce",
+    "question": "What payment methods are accepted and is Cash on Delivery (COD) available?",
+    "answer": "We accept Credit/Debit Cards, Net Banking, UPI (Google Pay, PhonePe, Paytm), and Cash on Delivery (COD) for eligible pincodes.",
+    "keywords": [
+      "payment methods",
+      "pay with upi",
+      "cash on delivery",
+      "cod available",
+      "credit card payment"
+    ]
+  },
+  {
+    "id": 29,
+    "category": "E-commerce",
+    "question": "Money was deducted but my order failed",
+    "answer": "If money was debited for a failed order, your bank will automatically reverse the funds within 3–5 business days. Contact support with transaction reference if needed.",
+    "keywords": [
+      "payment failed",
+      "money deducted order failed",
+      "failed transaction",
+      "payment error",
+      "money debited order failed"
+    ]
+  },
+  {
+    "id": 30,
+    "category": "E-commerce",
+    "question": "How can I apply a promo code or discount coupon?",
+    "answer": "Enter your promo coupon code in the Apply Coupon box on the cart checkout page before making payment.",
+    "keywords": [
+      "promo code",
+      "discount coupon",
+      "apply coupon",
+      "voucher code"
+    ]
+  },
+  {
+    "id": 31,
+    "category": "Banking",
+    "question": "How can I open a bank account and what documents are required?",
+    "answer": "You can open an account online via Video KYC or at a branch by providing identity proof (Aadhaar/Passport), address proof, PAN card, and photos.",
+    "keywords": [
+      "open bank account",
+      "account opening",
+      "documents needed bank",
+      "open savings account"
+    ]
+  },
+  {
+    "id": 32,
+    "category": "Banking",
+    "question": "How do I block my lost debit card?",
+    "answer": "Immediately block your card via mobile banking under Card Controls, send an SMS to your bank emergency number, or call the 24/7 card helpline.",
+    "keywords": [
+      "block debit card",
+      "lost debit card",
+      "stolen card",
+      "card lost",
+      "lock card",
+      "card block",
+      "block my lost debit card",
+      "lost my debit card help"
+    ]
+  },
+  {
+    "id": 33,
+    "category": "Banking",
+    "question": "How can I change or reset my ATM PIN?",
+    "answer": "Generate a Green PIN via your mobile banking app or insert your debit card into any bank ATM and select PIN Reset using OTP verification.",
+    "keywords": [
+      "change atm pin",
+      "reset pin",
+      "forgot pin",
+      "generate pin",
+      "pin reset"
+    ]
+  },
+  {
+    "id": 34,
+    "category": "Banking",
+    "question": "How can I check my account balance and download bank statement?",
+    "answer": "Check balance via mobile banking app, missed call banking, or ATM. Download e-statements in PDF format under Accounts > Statements.",
+    "keywords": [
+      "check balance",
+      "account balance",
+      "download statement",
+      "bank statement pdf",
+      "mini statement"
+    ]
+  },
+  {
+    "id": 35,
+    "category": "Banking",
+    "question": "How can I transfer money using UPI, NEFT, RTGS, or IMPS?",
+    "answer": "Log into mobile banking or UPI app, enter beneficiary account/UPI ID, specify amount, and authorize with your PIN or OTP.",
+    "keywords": [
+      "transfer money",
+      "upi transfer",
+      "neft",
+      "rtgs",
+      "imps",
+      "send money"
+    ]
+  },
+  {
+    "id": 36,
+    "category": "Banking",
+    "question": "What if a banking transaction failed but money was debited?",
+    "answer": "Failed bank transfer funds are auto-reversed by the banking network within 24 to 48 hours according to RBI guidelines.",
+    "keywords": [
+      "transaction failed money debited",
+      "failed transfer refund",
+      "failed payment auto reversal"
+    ]
+  },
+  {
+    "id": 37,
+    "category": "Banking",
+    "question": "How can I update my mobile number, address, or KYC?",
+    "answer": "Update KYC online via Video KYC or visit your home branch with valid ID and address proof documents to update mobile number and address.",
+    "keywords": [
+      "update kyc",
+      "change mobile number bank",
+      "update address bank",
+      "kyc verification"
+    ]
+  },
+  {
+    "id": 38,
+    "category": "Banking",
+    "question": "How can I report an unauthorized or fraudulent transaction?",
+    "answer": "Immediately freeze your account in the mobile app, block your card, and report the unauthorized transaction to the 24/7 fraud helpline within 24 hours.",
+    "keywords": [
+      "unauthorized transaction",
+      "fraud",
+      "money stolen",
+      "report fraud",
+      "scam transaction"
+    ]
+  },
+  {
+    "id": 39,
+    "category": "Healthcare",
+    "question": "How can I book a doctor appointment?",
+    "answer": "Book online via the hospital patient portal, call the appointment desk, or reschedule/cancel via My Appointments at least 2 hours prior.",
+    "keywords": [
+      "book appointment",
+      "cancel appointment",
+      "reschedule appointment",
+      "doctor appointment",
+      "find doctor",
+      "specialist appointment",
+      "book a doctor appointment",
+      "book a doctor appointment online"
+    ]
+  },
+  {
+    "id": 40,
+    "category": "Healthcare",
+    "question": "What are the hospital OPD and patient visiting hours?",
+    "answer": "OPD consultations run from 8:00 AM to 6:00 PM Monday through Saturday. Inpatient visiting hours are 4:00 PM to 7:00 PM daily.",
+    "keywords": [
+      "visiting hours",
+      "opd timings",
+      "hospital hours",
+      "patient visit time"
+    ]
+  },
+  {
+    "id": 41,
+    "category": "Healthcare",
+    "question": "How can I get my lab test reports?",
+    "answer": "Log into the patient portal using your Patient ID or registered mobile number to view and download diagnostic PDF lab reports.",
+    "keywords": [
+      "lab reports",
+      "test results",
+      "download report",
+      "blood test report",
+      "diagnostic reports",
+      "get lab test reports"
+    ]
+  },
+  {
+    "id": 42,
+    "category": "Healthcare",
+    "question": "Is ambulance and emergency service available?",
+    "answer": "Yes, the Emergency Trauma Department operates 24/7 with immediate ambulance dispatch on calling the emergency hotline.",
+    "keywords": [
+      "ambulance",
+      "emergency service",
+      "casualty",
+      "urgent medical help",
+      "ambulance emergency service"
+    ]
+  },
+  {
+    "id": 43,
+    "category": "Healthcare",
+    "question": "What documents should I bring to my appointment?",
+    "answer": "Bring a valid photo ID, health insurance card, previous medical prescriptions, lab test reports, and referral slips.",
+    "keywords": [
+      "documents hospital appointment",
+      "what to bring hospital",
+      "medical records"
+    ]
+  },
+  {
+    "id": 44,
+    "category": "Food Delivery",
+    "question": "Why is my food order delayed?",
+    "answer": "Food delays can happen during peak hours or heavy traffic. Track your rider live or tap Help in your order screen for live support.",
+    "keywords": [
+      "food delayed",
+      "why food order delayed",
+      "late food delivery",
+      "food late"
+    ]
+  },
+  {
+    "id": 45,
+    "category": "Food Delivery",
+    "question": "My food arrived cold and damaged",
+    "answer": "Tap Help on your order screen, upload photos of cold or damaged food to receive an instant refund or replacement coupon.",
+    "keywords": [
+      "cold food",
+      "food arrived cold damaged",
+      "spilled food",
+      "damaged food"
+    ]
+  },
+  {
+    "id": 46,
+    "category": "Software / Technology",
+    "question": "I forgot my password. How do I reset it?",
+    "answer": "Click Forgot Password on the login screen, enter your registered email address, and follow the password recovery link sent to your inbox.",
+    "keywords": [
+      "forgot password",
+      "cant login",
+      "reset password",
+      "lost password",
+      "password recovery",
+      "cant remember password",
+      "password not working",
+      "help reset password",
+      "get password back",
+      "forgot password reset it",
+      "forgot my password what do i do"
+    ]
+  },
+  {
+    "id": 47,
+    "category": "Software / Technology",
+    "question": "How do I enable two-factor authentication?",
+    "answer": "Go to Account Settings > Security, select Two-Factor Authentication (2FA), and scan the QR code using Google Authenticator or Authy.",
+    "keywords": [
+      "enable 2fa",
+      "two factor authentication",
+      "enable two factor authentication",
+      "2fa setup"
+    ]
+  },
+  {
+    "id": 48,
+    "category": "Software / Technology",
+    "question": "How do I clear browser cache and cookies?",
+    "answer": "Press Ctrl+Shift+Delete (or Cmd+Shift+Delete on Mac) in your browser, select Cookies and Cached Images, and click Clear Data.",
+    "keywords": [
+      "clear cache",
+      "clear cookies",
+      "clear browser cache cookies",
+      "browser cache"
+    ]
+  },
+  {
+    "id": 49,
+    "category": "Travel",
+    "question": "How can I book a flight ticket?",
+    "answer": "Select your departure and destination cities, pick travel dates, enter passenger details, pay, and get instant e-tickets delivered to your email.",
+    "keywords": [
+      "book flight",
+      "book flight ticket",
+      "flight booking"
+    ]
+  },
+  {
+    "id": 50,
+    "category": "Travel",
+    "question": "How can I cancel my ticket and get a refund?",
+    "answer": "Go to My Trips, select your flight or train booking, click Cancel Ticket, view the refund calculation, and confirm cancellation.",
+    "keywords": [
+      "cancel ticket refund",
+      "cancel ticket get refund",
+      "cancel flight ticket",
+      "cancel train ticket"
+    ]
+  },
+  {
+    "id": 51,
+    "category": "Travel",
+    "question": "What are the baggage allowance rules?",
+    "answer": "Domestic flights allow 15 kg check-in and 7 kg cabin baggage per passenger. Excess baggage can be pre-booked online at discounted rates.",
+    "keywords": [
+      "baggage allowance",
+      "baggage allowance rules",
+      "luggage weight"
+    ]
+  },
+  {
+    "id": 52,
+    "category": "Public Services",
+    "question": "How can I apply for official government certificates?",
+    "answer": "Register on your state public portal (e-District), select the certificate (Birth, Caste, Income, Domicile), submit ID proofs, and track status.",
+    "keywords": [
+      "apply government certificate",
+      "official government certificates",
+      "birth certificate",
+      "caste certificate"
+    ]
+  },
+  {
+    "id": 53,
+    "category": "Public Services",
+    "question": "How can I file a public grievance or complaint?",
+    "answer": "Submit citizen complaints on the CPGRAMS portal or state grievance website to receive an official tracking ticket number.",
+    "keywords": [
+      "public grievance",
+      "file public grievance complaint",
+      "citizen complaint"
+    ]
+  },
+  {
+    "id": 54,
+    "category": "Career",
+    "question": "How can I create an impressive resume?",
+    "answer": "Include Contact Details, Professional Summary, Work Experience with metrics, Technical Skills, Projects, and Education in a clean 1-page template.",
+    "keywords": [
+      "create resume",
+      "impressive resume",
+      "cv format",
+      "build cv"
+    ]
+  },
+  {
+    "id": 55,
+    "category": "Career",
+    "question": "How can I prepare for job interviews?",
+    "answer": "Practice STAR method for behavioral questions, review core domain concepts, and rehearse mock interviews.",
+    "keywords": [
+      "prepare job interviews",
+      "interview preparation",
+      "job interview tips"
+    ]
+  },
+  {
+    "id": 56,
+    "category": "Career",
+    "question": "How can I find internships?",
+    "answer": "Browse university placement portals, LinkedIn, or platforms like Internshala to apply for summer and graduate internship roles.",
+    "keywords": [
+      "find internships",
+      "internship opportunity",
+      "summer internship"
+    ]
+  },
+  {
+    "id": 57,
+    "category": "General Support",
+    "question": "How can I contact customer support or speak to a human agent?",
+    "answer": "Reach our 24/7 customer care via live chat, email support@service.com, or call our toll-free helpline at +1-800-555-0199.",
+    "keywords": [
+      "contact customer support",
+      "speak to human agent",
+      "customer care number",
+      "talk to support"
+    ]
+  },
+  {
+    "id": 58,
+    "category": "General Support",
+    "question": "What are your customer support operating hours?",
+    "answer": "Our digital chat assistant AIRA is available 24/7. Human support agents are online Monday to Saturday from 8:00 AM to 8:00 PM.",
+    "keywords": [
+      "support operating hours",
+      "customer support hours",
+      "helpline timings"
+    ]
+  },
+  {
+    "id": 59,
+    "category": "Software / Technology",
+    "question": "I forgot my password, what do I do?",
+    "answer": "Click Forgot Password on the login screen, enter your registered email address, and follow the password recovery link sent to your inbox.",
+    "keywords": [
+      "forgot password",
+      "cant login",
+      "reset password",
+      "lost password",
+      "cant remember password"
+    ]
+  },
+  {
+    "id": 60,
+    "category": "Software / Technology",
+    "question": "Can't remember my password",
+    "answer": "Click Forgot Password on the login screen, enter your registered email address, and follow the password recovery link sent to your inbox.",
+    "keywords": [
+      "cant remember password",
+      "forgot password"
+    ]
+  },
+  {
+    "id": 61,
+    "category": "Software / Technology",
+    "question": "I can't login",
+    "answer": "Click Forgot Password on the login screen, enter your registered email address, and follow the password recovery link sent to your inbox.",
+    "keywords": [
+      "cant login",
+      "unable login"
+    ]
+  },
+  {
+    "id": 62,
+    "category": "Software / Technology",
+    "question": "My password isn't working",
+    "answer": "Click Forgot Password on the login screen, enter your registered email address, and follow the password recovery link sent to your inbox.",
+    "keywords": [
+      "password not working",
+      "wrong password"
+    ]
+  },
+  {
+    "id": 63,
+    "category": "Software / Technology",
+    "question": "Help me reset my password",
+    "answer": "Click Forgot Password on the login screen, enter your registered email address, and follow the password recovery link sent to your inbox.",
+    "keywords": [
+      "help reset password"
+    ]
+  },
+  {
+    "id": 64,
+    "category": "E-commerce",
+    "question": "Where is my order?",
+    "answer": "Go to My Orders in your account, select the item, and tap Track Package to see real-time courier GPS updates, transit status, and expected delivery date.",
+    "keywords": [
+      "where is order",
+      "track order"
+    ]
+  },
+  {
+    "id": 65,
+    "category": "E-commerce",
+    "question": "Track my order",
+    "answer": "Go to My Orders in your account, select the item, and tap Track Package to see real-time courier GPS updates, transit status, and expected delivery date.",
+    "keywords": [
+      "track my order"
+    ]
+  },
+  {
+    "id": 66,
+    "category": "E-commerce",
+    "question": "Where is my package?",
+    "answer": "Go to My Orders in your account, select the item, and tap Track Package to see real-time courier GPS updates, transit status, and expected delivery date.",
+    "keywords": [
+      "where package"
+    ]
+  },
+  {
+    "id": 67,
+    "category": "E-commerce",
+    "question": "Has my order been shipped?",
+    "answer": "Go to My Orders in your account, select the item, and tap Track Package to see real-time courier GPS updates, transit status, and expected delivery date.",
+    "keywords": [
+      "order shipped"
+    ]
+  },
+  {
+    "id": 68,
+    "category": "E-commerce",
+    "question": "When will my order arrive?",
+    "answer": "Go to My Orders in your account, select the item, and tap Track Package to see real-time courier GPS updates, transit status, and expected delivery date.",
+    "keywords": [
+      "order arrival date"
+    ]
+  },
+  {
+    "id": 69,
+    "category": "E-commerce",
+    "question": "My order hasn't arrived",
+    "answer": "Go to My Orders in your account, select the item, and tap Track Package to see real-time courier GPS updates, transit status, and expected delivery date.",
+    "keywords": [
+      "order not arrived"
+    ]
+  },
+  {
+    "id": 70,
+    "category": "E-commerce",
+    "question": "How do I check my delivery?",
+    "answer": "Go to My Orders in your account, select the item, and tap Track Package to see real-time courier GPS updates, transit status, and expected delivery date.",
+    "keywords": [
+      "check delivery"
+    ]
+  },
+  {
+    "id": 71,
+    "category": "Banking",
+    "question": "I lost my debit card, help",
+    "answer": "Immediately block your card via mobile banking under Card Controls, send an SMS to your bank emergency number, or call the 24/7 card helpline.",
+    "keywords": [
+      "lost debit card help",
+      "lost my debit card",
+      "stolen card"
+    ]
+  },
+  {
+    "id": 72,
+    "category": "Banking",
+    "question": "How do I block my card?",
+    "answer": "Immediately block your card via mobile banking under Card Controls, send an SMS to your bank emergency number, or call the 24/7 card helpline.",
+    "keywords": [
+      "block card",
+      "block my card"
+    ]
+  },
+  {
+    "id": 73,
+    "category": "Healthcare",
+    "question": "I need to see a doctor",
+    "answer": "Book online via the hospital patient portal, call the appointment desk, or reschedule/cancel via My Appointments at least 2 hours prior.",
+    "keywords": [
+      "see doctor"
+    ]
+  },
+  {
+    "id": 74,
+    "category": "Healthcare",
+    "question": "Can I book a doctor appointment online?",
+    "answer": "Book online via the hospital patient portal, call the appointment desk, or reschedule/cancel via My Appointments at least 2 hours prior.",
+    "keywords": [
+      "book doctor appointment online"
+    ]
+  },
+  {
+    "id": 75,
+    "category": "Food Delivery",
+    "question": "Where is my food?",
+    "answer": "Food delays can happen during peak hours or heavy traffic. Track your rider live or tap Help in your order screen for live support.",
+    "keywords": [
+      "where food"
+    ]
+  },
+  {
+    "id": 76,
+    "category": "Food Delivery",
+    "question": "My food is late",
+    "answer": "Food delays can happen during peak hours or heavy traffic. Track your rider live or tap Help in your order screen for live support.",
+    "keywords": [
+      "food late"
+    ]
+  }
+]
