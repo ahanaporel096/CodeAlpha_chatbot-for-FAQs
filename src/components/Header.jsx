@@ -4,18 +4,19 @@ export default function Header({ onClearChat, onExportChat, onOpenSettings, onTo
   const { messages } = useChatContext()
 
   return (
-    <header className="fixed top-0 left-0 lg:left-80 right-0 h-16 bg-[var(--theme-bg)]/90 backdrop-blur-2xl z-40 border-b border-[var(--theme-border)] flex items-center justify-between px-3 sm:px-6 transition-colors duration-400">
+    <header className="fixed top-0 left-0 right-0 h-16 bg-[var(--theme-bg)]/90 backdrop-blur-2xl z-40 border-b border-[var(--theme-border)] flex items-center justify-between px-3 sm:px-6 transition-colors duration-400">
       
-      {/* Left: Hamburger (mobile/tablet) + AIRA Branding */}
+      {/* Left: Explore Topics Button + AIRA Branding */}
       <div className="flex items-center gap-2.5 sm:gap-3.5">
-        {/* Mobile/Tablet Menu Button */}
+        {/* Toggle Domains Drawer Button (Visible on all screens) */}
         <button
           onClick={onToggleSidebar}
-          className="lg:hidden p-2 rounded-xl bg-white/[0.07] hover:bg-white/[0.12] border border-[var(--theme-border)] text-slate-200 transition-all flex items-center justify-center cursor-pointer shadow-sm active:scale-95"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.07] hover:bg-white/[0.12] border border-[var(--theme-border)] text-slate-200 hover:text-white text-[13px] font-medium transition-all cursor-pointer shadow-sm active:scale-95"
           aria-label="Open topics menu"
-          title="Browse 10 Topics & Domains"
+          title="Browse 10 Knowledge Domains"
         >
           <span className="material-symbols-outlined text-[20px]">menu</span>
+          <span className="hidden sm:inline">Topics</span>
         </button>
 
         {/* AIRA Avatar Badge (Secret Dev Trigger: Triple Click/Tap) */}
@@ -53,7 +54,7 @@ export default function Header({ onClearChat, onExportChat, onOpenSettings, onTo
 
       {/* Right: Action Buttons */}
       <div className="flex items-center gap-1.5 sm:gap-2">
-        {/* Developer-Only Settings Button (Hidden from regular users) */}
+        {/* Developer-Only Settings Button */}
         {isDevMode && onOpenSettings && (
           <button
             onClick={onOpenSettings}

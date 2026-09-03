@@ -57,7 +57,7 @@ export default function InputBar({ onSend }) {
   }
 
   return (
-    <footer className="fixed bottom-0 left-0 lg:left-80 right-0 p-2.5 sm:p-4 md:p-6 bg-gradient-to-t from-[var(--theme-bg)] via-[var(--theme-bg)]/95 to-transparent z-30 pointer-events-none transition-colors duration-400">
+    <footer className="fixed bottom-0 left-0 right-0 p-2.5 sm:p-4 md:p-6 bg-gradient-to-t from-[var(--theme-bg)] via-[var(--theme-bg)]/95 to-transparent z-30 pointer-events-none transition-colors duration-400">
       <div className="max-w-4xl mx-auto pointer-events-auto">
         
         {/* Glow Input Container */}
@@ -65,26 +65,9 @@ export default function InputBar({ onSend }) {
           {/* Focus glow border */}
           <div className="absolute -inset-0.5 rounded-2xl opacity-25 group-focus-within:opacity-80 blur-sm transition-all duration-500 bg-[var(--theme-glow)]" />
 
-          <div className="relative flex items-center gap-3 theme-panel px-3 py-2.5 rounded-2xl border border-[var(--theme-border)] shadow-2xl">
+          <div className="relative flex items-center gap-2 sm:gap-2.5 theme-panel pl-4 pr-2.5 py-2 sm:py-2.5 rounded-2xl border border-[var(--theme-border)] shadow-2xl">
             
-            {/* Voice Input Button */}
-            <button
-              type="button"
-              onClick={handleVoiceInput}
-              disabled={isTyping}
-              className={`p-2 rounded-xl transition-all duration-200 flex items-center justify-center cursor-pointer ${
-                isListening
-                  ? 'bg-rose-500/20 text-rose-400 animate-pulse border border-rose-500/40'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]'
-              }`}
-              title={isListening ? 'Listening...' : 'Voice Input (Speech-to-Text)'}
-            >
-              <span className="material-symbols-outlined text-[20px]">
-                {isListening ? 'mic_active' : 'mic'}
-              </span>
-            </button>
-
-            {/* Input Field */}
+            {/* Text Input Field */}
             <input
               ref={inputRef}
               type="text"
@@ -93,10 +76,40 @@ export default function InputBar({ onSend }) {
               onKeyDown={handleKeyDown}
               disabled={isTyping}
               placeholder={isListening ? 'Listening... speak now...' : 'Ask AIRA anything...'}
-              className="flex-1 bg-transparent border-none focus:ring-0 text-[14px] text-white placeholder:text-slate-400 outline-none disabled:opacity-50"
+              className="flex-1 bg-transparent border-none focus:ring-0 text-[14px] sm:text-[15px] text-white placeholder:text-slate-400 outline-none disabled:opacity-50 min-w-0"
               aria-label="Chat input"
               id="chat-input"
             />
+
+            {/* Clear Input Text Button */}
+            {inputValue && (
+              <button
+                type="button"
+                onClick={() => setInput('')}
+                className="p-1 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+                title="Clear input text"
+              >
+                <span className="material-symbols-outlined text-[17px]">close</span>
+              </button>
+            )}
+
+            {/* Voice Input Button (Right beside Send Button) */}
+            <button
+              type="button"
+              onClick={handleVoiceInput}
+              disabled={isTyping}
+              className={`p-2 sm:p-2.5 rounded-xl transition-all duration-200 flex items-center justify-center cursor-pointer ${
+                isListening
+                  ? 'bg-rose-500/20 text-rose-400 animate-pulse border border-rose-500/40 shadow-[0_0_12px_rgba(244,63,94,0.4)]'
+                  : 'bg-white/[0.05] hover:bg-white/[0.1] border border-[var(--theme-border)] text-slate-300 hover:text-white hover:border-[var(--theme-accent)]'
+              }`}
+              title={isListening ? 'Listening... Speak now' : 'Voice Input (Speech-to-Text)'}
+              aria-label="Voice input"
+            >
+              <span className="material-symbols-outlined text-[20px]">
+                {isListening ? 'mic_active' : 'mic'}
+              </span>
+            </button>
 
             {/* Send Button */}
             <button

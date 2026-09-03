@@ -121,9 +121,9 @@ export default function WelcomeScreen({ onAsk }) {
 
         {/* Warm & Engaging Welcome Headline */}
         <div className="space-y-2.5 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[11.5px] sm:text-[12px] font-semibold tracking-wide shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[11.5px] sm:text-[12px] font-semibold tracking-wide shadow-sm">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span>165+ FAQs • 10 Knowledge Domains • Active 24/7</span>
+            <span>10 Knowledge Domains • Online 24/7</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">

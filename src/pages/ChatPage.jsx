@@ -163,8 +163,8 @@ export default function ChatPage() {
           isDevMode={isDevMode}
         />
 
-        {/* Main Chat View Area */}
-        <div className="lg:pl-80 flex flex-col flex-1 min-h-screen w-full">
+        {/* Main Chat View Area (Centered full-width layout) */}
+        <div className="flex flex-col flex-1 min-h-screen w-full">
           <Header
             onClearChat={handleClearChat}
             onExportChat={handleExportChat}
