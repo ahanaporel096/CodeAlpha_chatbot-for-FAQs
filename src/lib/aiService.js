@@ -1,16 +1,18 @@
 /**
- * AI Service supporting both Google Gemini and Groq APIs directly from the browser.
- * Persists config in localStorage and handles chat completions with academic assistant context.
+ * AI Service supporting Google Gemini, Groq, and a Built-in Public AI fallback.
+ * Allows AIRA to answer ANY question (custom, open-ended, follow-up, or multi-domain).
  */
 
 export const PROVIDERS = {
   GEMINI: 'gemini',
   GROQ: 'groq',
+  FREE_AUTO: 'auto',
 }
 
 export const DEFAULT_MODELS = {
   [PROVIDERS.GEMINI]: 'gemini-1.5-flash',
   [PROVIDERS.GROQ]: 'llama-3.3-70b-versatile',
+  [PROVIDERS.FREE_AUTO]: 'openai-fast',
 }
 
 export const AVAILABLE_MODELS = {
@@ -45,8 +47,8 @@ export function getAIConfig() {
         provider: defaultProvider,
         apiKey: defaultApiKey,
         model: DEFAULT_MODELS[defaultProvider],
-        enabled: Boolean(defaultApiKey),
-        useAsFallbackOnly: true, // Triggers when local FAQ confidence is low
+        enabled: true, // Always enabled with automatic intelligent fallback
+        useAsFallbackOnly: true,
         systemPrompt: defaultSystemPrompt,
       }
     }
@@ -55,7 +57,7 @@ export function getAIConfig() {
       provider: parsed.provider || defaultProvider,
       apiKey: parsed.apiKey || defaultApiKey,
       model: parsed.model || DEFAULT_MODELS[parsed.provider || defaultProvider],
-      enabled: parsed.enabled ?? Boolean(parsed.apiKey || defaultApiKey),
+      enabled: parsed.enabled ?? true,
       useAsFallbackOnly: parsed.useAsFallbackOnly ?? true,
       systemPrompt: parsed.systemPrompt || defaultSystemPrompt,
     }
@@ -65,7 +67,7 @@ export function getAIConfig() {
       provider: defaultProvider,
       apiKey: defaultApiKey,
       model: DEFAULT_MODELS[defaultProvider],
-      enabled: Boolean(defaultApiKey),
+      enabled: true,
       useAsFallbackOnly: true,
       systemPrompt: defaultSystemPrompt,
     }
@@ -81,6 +83,61 @@ export function saveAIConfig(config) {
 }
 
 /**
+ * Built-in Public AI fallback for zero-config instant AI answers on Vercel
+ */
+async function callPublicAI({ messages, systemPrompt }) {
+  const url = 'https://text.pollinations.ai/'
+  const lastMsg = messages[messages.length - 1]?.content || ''
+
+  const formattedMessages = [
+    { role: 'system', content: systemPrompt },
+    ...messages.slice(-4).map((m) => ({
+      role: m.role === 'user' ? 'user' : 'assistant',
+      content: m.content,
+    })),
+  ]
+
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), 9000)
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: formattedMessages,
+        model: 'openai',
+        seed: 42,
+      }),
+      signal: controller.signal,
+    })
+    clearTimeout(timeoutId)
+
+    if (!res.ok) {
+      throw new Error(`Public AI returned ${res.status}`)
+    }
+
+    const text = await res.text()
+    if (!text || !text.trim()) {
+      throw new Error('Empty response from Public AI')
+    }
+    return text.trim()
+  } catch (err) {
+    clearTimeout(timeoutId)
+    // Fallback via GET if POST blocked
+    const fallbackUrl = `https://text.pollinations.ai/${encodeURIComponent(
+      `${systemPrompt}\n\nUser Question: ${lastMsg}`
+    )}`
+    const getRes = await fetch(fallbackUrl)
+    if (getRes.ok) {
+      const getText = await getRes.text()
+      if (getText?.trim()) return getText.trim()
+    }
+    throw err
+  }
+}
+
+/**
  * Call Google Gemini API
  */
 async function callGemini({ apiKey, model, messages, systemPrompt, faqContext }) {
@@ -89,10 +146,6 @@ async function callGemini({ apiKey, model, messages, systemPrompt, faqContext })
     apiKey
   )}`
 
-  // Format contents for Gemini
-  const contents = []
-
-  // Add system instruction / knowledge context
   let enrichedSystemPrompt = systemPrompt || 'You are AIRA, a multi-domain AI assistant.'
   if (faqContext && faqContext.length > 0) {
     enrichedSystemPrompt += `\n\nReference Multi-Domain FAQs for context:\n${faqContext
@@ -101,7 +154,7 @@ async function callGemini({ apiKey, model, messages, systemPrompt, faqContext })
       .join('\n\n')}`
   }
 
-  // Add previous conversation turns (limit to last 6 for brevity)
+  const contents = []
   const recentMessages = messages.slice(-6)
   for (const msg of recentMessages) {
     contents.push({
@@ -144,7 +197,7 @@ async function callGemini({ apiKey, model, messages, systemPrompt, faqContext })
 }
 
 /**
- * Call Groq API (OpenAI Compatible)
+ * Call Groq API
  */
 async function callGroq({ apiKey, model, messages, systemPrompt, faqContext }) {
   const modelName = model || 'llama-3.3-70b-versatile'
@@ -197,64 +250,83 @@ async function callGroq({ apiKey, model, messages, systemPrompt, faqContext }) {
 }
 
 /**
- * Unified AI dispatch function
+ * Unified AI dispatch function:
+ * 1. Uses Gemini/Groq if API key is provided
+ * 2. Uses Public AI fallback if no API key is set
  */
 export async function generateAIResponse({ query, conversationHistory = [], faqContext = [] }) {
   const config = getAIConfig()
-  if (!config.enabled || !config.apiKey) {
-    return null
-  }
-
   const messages = [...conversationHistory, { role: 'user', content: query }]
 
-  try {
-    let responseText = ''
-    if (config.provider === PROVIDERS.GROQ) {
-      responseText = await callGroq({
-        apiKey: config.apiKey,
+  // 1. If Developer provided API key for Gemini / Groq
+  if (config.apiKey && config.apiKey.trim()) {
+    try {
+      let responseText = ''
+      if (config.provider === PROVIDERS.GROQ) {
+        responseText = await callGroq({
+          apiKey: config.apiKey,
+          model: config.model,
+          messages,
+          systemPrompt: config.systemPrompt,
+          faqContext,
+        })
+      } else {
+        responseText = await callGemini({
+          apiKey: config.apiKey,
+          model: config.model,
+          messages,
+          systemPrompt: config.systemPrompt,
+          faqContext,
+        })
+      }
+
+      return {
+        text: responseText,
+        provider: config.provider,
         model: config.model,
-        messages,
-        systemPrompt: config.systemPrompt,
-        faqContext,
-      })
-    } else {
-      responseText = await callGemini({
-        apiKey: config.apiKey,
-        model: config.model,
-        messages,
-        systemPrompt: config.systemPrompt,
-        faqContext,
-      })
+      }
+    } catch (apiErr) {
+      console.warn(`[aiService] Dedicated API failed (${apiErr.message}), trying Public AI fallback...`)
     }
+  }
+
+  // 2. Built-in Automatic Public AI Fallback
+  try {
+    const publicResponse = await callPublicAI({
+      messages,
+      systemPrompt: config.systemPrompt,
+    })
 
     return {
-      text: responseText,
-      provider: config.provider,
-      model: config.model,
+      text: publicResponse,
+      provider: 'AIRA Smart AI',
+      model: 'openai-cloud',
     }
-  } catch (err) {
-    console.error(`Error generating response from ${config.provider}:`, err)
-    throw err
+  } catch (publicErr) {
+    console.error('[aiService] All AI endpoints failed:', publicErr)
+    return null
   }
 }
 
-/**
- * Test connection with a simple ping
- */
 export async function testConnection(config) {
   const testMessages = [{ role: 'user', content: 'Hello! Respond with "OK" if you can hear me.' }]
 
-  if (config.provider === PROVIDERS.GROQ) {
+  if (config.provider === PROVIDERS.GROQ && config.apiKey) {
     return await callGroq({
       apiKey: config.apiKey,
       model: config.model,
       messages: testMessages,
       systemPrompt: 'Respond in 1-5 words confirming connection.',
     })
-  } else {
+  } else if (config.apiKey) {
     return await callGemini({
       apiKey: config.apiKey,
       model: config.model,
+      messages: testMessages,
+      systemPrompt: 'Respond in 1-5 words confirming connection.',
+    })
+  } else {
+    return await callPublicAI({
       messages: testMessages,
       systemPrompt: 'Respond in 1-5 words confirming connection.',
     })

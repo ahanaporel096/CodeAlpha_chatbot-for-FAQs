@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react'
 import { supabase, isSupabaseConfigured } from '../lib/supabase'
 import { useChatContext } from '../context/ChatContext'
 import { findBestMatch, LOCAL_FAQS } from '../utils/faqMatcher'
+import { matchSuggestionIntent } from '../utils/domainKnowledge'
 import { generateAIResponse, getAIConfig, PROVIDERS } from '../lib/aiService'
 
 export function useChat() {
@@ -11,6 +12,7 @@ export function useChat() {
     addMessage,
     setTyping,
     setSession,
+    activeCategory,
   } = useChatContext()
 
   // ─── Create or restore session ─────────────────────────────────────────────
@@ -61,7 +63,7 @@ export function useChat() {
     [sessionId]
   )
 
-  // ─── Query Python Flask REST API (if available) ────────────────────────────
+  // ─── Query Python Flask REST API (if running locally) ──────────────────────
   const queryPythonBackend = useCallback(async (userMessage) => {
     try {
       const response = await fetch('/api/chat', {
@@ -72,14 +74,10 @@ export function useChat() {
         body: JSON.stringify({ message: userMessage }),
       })
 
-      if (!response.ok) {
-        throw new Error(`Backend returned status ${response.status}`)
-      }
-
+      if (!response.ok) throw new Error('Backend status ' + response.status)
       const data = await response.json()
       return data
     } catch {
-      // Python backend is optional / client-first
       return null
     }
   }, [])
@@ -92,20 +90,27 @@ export function useChat() {
       const userText = text.trim()
       const aiConfig = getAIConfig()
 
+      // Find the last answered category from chat history
+      const lastBotMessage = [...messages].reverse().find((m) => m.role === 'bot' && m.category)
+      const currentContextCategory = lastBotMessage?.category || activeCategory || 'Education'
+
       // 1. Add user message to UI
       addMessage({ role: 'user', content: userText })
-
-      // Persist user message
       persistMessage({ role: 'user', content: userText })
 
       // Show typing indicator
       setTyping(true)
 
       let result = null
-      const forceAI = aiConfig.enabled && Boolean(aiConfig.apiKey) && !aiConfig.useAsFallbackOnly
 
-      // 2. Client-side Multi-Domain NLP Matcher (High accuracy on all 10 domains)
-      if (!forceAI) {
+      // 2. Check for Contextual Suggestions & Advice intent ("anything to suggest on this topic?", "tips on this", etc.)
+      const suggestionMatch = matchSuggestionIntent(userText, currentContextCategory)
+      if (suggestionMatch) {
+        result = suggestionMatch
+      }
+
+      // 3. Client-side Multi-Domain NLP Matcher
+      if (!result) {
         const localMatch = findBestMatch(userText, LOCAL_FAQS)
         if (localMatch && localMatch.faq) {
           result = {
@@ -119,8 +124,8 @@ export function useChat() {
         }
       }
 
-      // 3. If local match had low confidence, try Python Flask Backend if running
-      if (!result && !forceAI) {
+      // 4. Try Python backend if available
+      if (!result) {
         const backendData = await queryPythonBackend(userText)
         if (backendData && backendData.answer && backendData.is_matched) {
           result = {
@@ -134,13 +139,8 @@ export function useChat() {
         }
       }
 
-      // 4. If AI API is configured (Google Gemini / Groq) and query needs intelligent answer
-      const shouldUseAI =
-        aiConfig.enabled &&
-        Boolean(aiConfig.apiKey) &&
-        (forceAI || !result || !result.isMatched || result.confidence < 45)
-
-      if (shouldUseAI) {
+      // 5. Intelligent AI Engine: Generates real answers for ANY custom, open-ended, or follow-up question
+      if (!result || !result.isMatched || result.confidence < 40) {
         try {
           const aiResult = await generateAIResponse({
             query: userText,
@@ -151,36 +151,40 @@ export function useChat() {
           if (aiResult?.text) {
             setTyping(false)
             const providerLabel =
-              aiResult.provider === PROVIDERS.GROQ ? 'Groq AI' : 'Google Gemini'
+              aiResult.provider === PROVIDERS.GROQ
+                ? 'Groq AI'
+                : aiResult.provider === PROVIDERS.GEMINI
+                ? 'Google Gemini'
+                : 'AIRA Smart AI'
 
             addMessage({
               role: 'bot',
               content: aiResult.text,
-              confidence: 98,
+              confidence: 96,
               isAI: true,
               aiProvider: providerLabel,
               aiModel: aiResult.model,
-              category: 'AIRA Multi-Domain AI',
+              category: currentContextCategory || 'General Support',
+              matchedQuestion: userText,
             })
 
             persistMessage({
               role: 'bot',
               content: aiResult.text,
-              confidence: 0.98,
+              confidence: 0.96,
             })
             return
           }
         } catch (aiErr) {
-          console.warn('[useChat] AI response generation failed, falling back to local result.', aiErr)
+          console.warn('[useChat] AI generation failed:', aiErr)
         }
       }
 
-      // Small realistic response delay
-      await new Promise((r) => setTimeout(r, 350 + Math.random() * 250))
+      // Natural response delay
+      await new Promise((r) => setTimeout(r, 350 + Math.random() * 200))
       setTyping(false)
 
       if (result && result.isMatched) {
-        // High-confidence exact multi-domain FAQ match
         addMessage({
           role: 'bot',
           content: result.answer,
@@ -195,24 +199,24 @@ export function useChat() {
           confidence: result.confidence / 100,
         })
       } else {
-        // Safe out-of-scope fallback (Never return a false wrong answer!)
+        // Fallback response with structured help
         addMessage({
           role: 'bot',
           content:
-            "I'm here to help! I couldn't find an exact answer for that in our instant FAQ library. You can ask me about Shopping & Orders 🛒, Banking & Cards 🏦, Doctor Appointments 🏥, Password & Tech Support 💻, Food Delivery 🍔, Flight Bookings ✈️, Admissions 🎓, or configure a free AI API key in Settings (⚙️) for answering any custom question!",
+            "I'm here to assist! I can provide guidance across Shopping & Orders 🛒, Banking & Cards 🏦, Doctor Appointments 🏥, Password & Tech Support 💻, Food Delivery 🍔, Flight Bookings ✈️, Admissions 🎓, and Career Advice 💼. Feel free to ask your question or pick any topic!",
           confidence: 0,
           isFallback: true,
-          category: 'General Support',
+          category: currentContextCategory || 'General Support',
         })
 
         persistMessage({
           role: 'bot',
-          content: "I couldn't find an exact answer for that.",
+          content: "I'm here to assist.",
           confidence: 0,
         })
       }
     },
-    [addMessage, setTyping, persistMessage, queryPythonBackend, messages]
+    [addMessage, setTyping, persistMessage, queryPythonBackend, messages, activeCategory]
   )
 
   return { sendMessage }
