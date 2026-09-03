@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useChatContext } from '../context/ChatContext'
 import { useChat } from '../hooks/useChat'
 import Sidebar from '../components/Sidebar'
@@ -15,14 +15,59 @@ export default function ChatPage() {
   const { sendMessage } = useChat()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   
+  // Developer Mode (Activated via ?dev=true, Ctrl+Shift+S, or triple-clicking the AIRA badge)
+  const [isDevMode, setIsDevMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const search = window.location.search || ''
+      return search.includes('dev=true') || search.includes('admin=true')
+    }
+    return false
+  })
+
   // Modals & Toasts
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [isDocsModalOpen, setIsDocsModalOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState(null)
 
+  // Secret Dev Trigger: Triple Click Tracker
+  const clickCountRef = useRef(0)
+  const clickTimerRef = useRef(null)
+
   const showToast = (msg) => {
     setToastMessage(msg)
+  }
+
+  // Developer Secret Shortcut: Ctrl + Shift + S or Alt + S
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 's') || (e.altKey && e.key.toLowerCase() === 's')) {
+        e.preventDefault()
+        setIsDevMode(true)
+        setIsSettingsOpen(true)
+        showToast('🔓 Developer Mode: AI Settings Opened')
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  // Secret Dev Trigger: Triple Click on AIRA logo badge
+  const handleSecretDevTrigger = () => {
+    clickCountRef.current += 1
+    if (clickTimerRef.current) clearTimeout(clickTimerRef.current)
+
+    if (clickCountRef.current >= 3) {
+      clickCountRef.current = 0
+      setIsDevMode(true)
+      setIsSettingsOpen(true)
+      showToast('🔓 Developer Mode: AI Settings Opened')
+    } else {
+      clickTimerRef.current = setTimeout(() => {
+        clickCountRef.current = 0
+      }, 1200)
+    }
   }
 
   const handleSendMessage = (text) => {
@@ -83,11 +128,11 @@ export default function ChatPage() {
         onClose={() => setToastMessage(null)}
       />
 
-      {/* Settings Modal */}
+      {/* Developer Settings Modal */}
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
-        onConfigSaved={() => showToast('AI Settings Saved')}
+        onConfigSaved={() => showToast('AI Settings Saved Successfully')}
       />
 
       {/* Documents Checklist Modal */}
@@ -114,6 +159,8 @@ export default function ChatPage() {
           onClose={() => setIsSidebarOpen(false)}
           onQuickQuestion={handleQuickQuestion}
           onOpenSettings={() => setIsSettingsOpen(true)}
+          onSecretDevTrigger={handleSecretDevTrigger}
+          isDevMode={isDevMode}
         />
 
         {/* Main Chat View Area */}
@@ -123,6 +170,8 @@ export default function ChatPage() {
             onOpenProfile={() => setIsProfileOpen(true)}
             onOpenSettings={() => setIsSettingsOpen(true)}
             onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+            onSecretDevTrigger={handleSecretDevTrigger}
+            isDevMode={isDevMode}
           />
           <ChatContainer
             onSendMessage={handleSendMessage}

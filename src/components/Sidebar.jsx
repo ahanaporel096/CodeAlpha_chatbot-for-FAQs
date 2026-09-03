@@ -14,7 +14,7 @@ const MULTI_DOMAINS = [
   { id: 'General Support', icon: 'support_agent', label: 'General Support', emoji: '💬', question: 'How can I contact customer support?' },
 ]
 
-export default function Sidebar({ isOpen, onClose, onQuickQuestion, onOpenSettings }) {
+export default function Sidebar({ isOpen, onClose, onQuickQuestion, onOpenSettings, onSecretDevTrigger, isDevMode }) {
   const { activeCategory } = useChatContext()
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -53,9 +53,13 @@ export default function Sidebar({ isOpen, onClose, onQuickQuestion, onOpenSettin
             <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--theme-glow)] rounded-full blur-2xl pointer-events-none transition-all duration-700" />
             
             <div className="flex items-center justify-between relative z-10">
-              <div className="flex items-center gap-3.5">
+              <div 
+                onClick={onSecretDevTrigger}
+                className="flex items-center gap-3.5 cursor-pointer select-none"
+                title="AIRA Assistant"
+              >
                 <div className="relative">
-                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl theme-button p-[2px] shadow-lg flex items-center justify-center text-white font-black text-[18px] sm:text-[20px]">
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl theme-button p-[2px] shadow-lg flex items-center justify-center text-white font-black text-[18px] sm:text-[20px] transition-transform group-hover:scale-105">
                     A
                   </div>
                   <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-[var(--theme-accent)] border-2 border-[var(--theme-surface)] shadow-[0_0_8px_var(--theme-accent)] animate-pulse" />
@@ -96,7 +100,7 @@ export default function Sidebar({ isOpen, onClose, onQuickQuestion, onOpenSettin
           <div className="space-y-1">
             <div className="flex items-center justify-between px-2 mb-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                Ask About (10 Domains)
+                Explore Topics (10 Domains)
               </span>
             </div>
 
@@ -129,18 +133,25 @@ export default function Sidebar({ isOpen, onClose, onQuickQuestion, onOpenSettin
 
         </div>
 
-        {/* Sidebar Footer: Quick Settings */}
+        {/* Sidebar Footer: Clean Status & Dev Settings (when activated) */}
         <div className="p-4 border-t border-[var(--theme-border)] bg-black/20">
-          <button
-            onClick={() => {
-              if (onOpenSettings) onOpenSettings()
-              if (onClose) onClose()
-            }}
-            className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-[var(--theme-border)] text-slate-300 hover:text-white text-[13px] font-semibold transition-all cursor-pointer"
-          >
-            <span className="material-symbols-outlined text-[18px] text-[var(--theme-accent)]">tune</span>
-            <span>AI Model & Settings</span>
-          </button>
+          {isDevMode ? (
+            <button
+              onClick={() => {
+                if (onOpenSettings) onOpenSettings()
+                if (onClose) onClose()
+              }}
+              className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 hover:text-white text-[13px] font-mono font-semibold transition-all cursor-pointer shadow-sm"
+            >
+              <span className="material-symbols-outlined text-[18px] text-[var(--theme-accent)]">code</span>
+              <span>Developer AI Settings</span>
+            </button>
+          ) : (
+            <div className="flex items-center justify-center gap-2 py-1 text-[11.5px] text-slate-400 font-medium">
+              <span className="w-2 h-2 rounded-full bg-[var(--theme-accent)] animate-pulse" />
+              <span>AIRA Multi-Domain Assistant</span>
+            </div>
+          )}
         </div>
 
       </aside>

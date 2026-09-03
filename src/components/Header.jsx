@@ -1,6 +1,6 @@
 import { useChatContext } from '../context/ChatContext'
 
-export default function Header({ onClearChat, onOpenProfile, onOpenSettings, onToggleSidebar }) {
+export default function Header({ onClearChat, onOpenSettings, onToggleSidebar, onSecretDevTrigger, isDevMode }) {
   const { messages } = useChatContext()
 
   return (
@@ -18,9 +18,13 @@ export default function Header({ onClearChat, onOpenProfile, onOpenSettings, onT
           <span className="material-symbols-outlined text-[20px]">menu</span>
         </button>
 
-        {/* AIRA Avatar Badge */}
-        <div className="relative flex-shrink-0">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl theme-button flex items-center justify-center shadow-lg text-white font-black text-[16px] sm:text-[18px] tracking-wider">
+        {/* AIRA Avatar Badge (Secret Dev Trigger: Triple Click/Tap) */}
+        <div 
+          onClick={onSecretDevTrigger}
+          className="relative flex-shrink-0 cursor-pointer select-none group"
+          title="AIRA Assistant"
+        >
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl theme-button flex items-center justify-center shadow-lg text-white font-black text-[16px] sm:text-[18px] tracking-wider transition-transform group-hover:scale-105 active:scale-95">
             A
           </div>
           <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[var(--theme-accent)] border-2 border-[var(--theme-bg)] shadow-[0_0_8px_var(--theme-accent)] animate-pulse" />
@@ -49,16 +53,16 @@ export default function Header({ onClearChat, onOpenProfile, onOpenSettings, onT
 
       {/* Right: Action Buttons */}
       <div className="flex items-center gap-2 sm:gap-2.5">
-        {/* Settings Button */}
-        {onOpenSettings && (
+        {/* Developer-Only Settings Button (Hidden from regular users) */}
+        {isDevMode && onOpenSettings && (
           <button
             onClick={onOpenSettings}
-            className="p-2 sm:px-3 sm:py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-[var(--theme-border)] text-slate-300 hover:text-white text-[13px] font-semibold transition-all cursor-pointer flex items-center gap-1.5"
-            title="AI Configuration & Settings"
-            aria-label="Settings"
+            className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 hover:text-white text-[12px] font-mono font-semibold transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
+            title="Developer AI Settings"
+            aria-label="Developer Settings"
           >
-            <span className="material-symbols-outlined text-[19px]">tune</span>
-            <span className="hidden md:inline">Settings</span>
+            <span className="material-symbols-outlined text-[17px] text-[var(--theme-accent)]">code</span>
+            <span className="hidden sm:inline">Dev Config</span>
           </button>
         )}
 
@@ -66,7 +70,7 @@ export default function Header({ onClearChat, onOpenProfile, onOpenSettings, onT
         {messages.length > 0 && (
           <button
             onClick={onClearChat}
-            className="flex items-center gap-1 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 hover:text-rose-200 text-[12px] sm:text-[13px] font-semibold transition-all cursor-pointer"
+            className="flex items-center gap-1 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 hover:text-rose-200 text-[12px] sm:text-[13px] font-semibold transition-all cursor-pointer shadow-sm active:scale-95"
             title="Clear Chat History"
           >
             <span className="material-symbols-outlined text-[17px]">delete_sweep</span>

@@ -15,16 +15,16 @@ const CATEGORY_EMOJIS = {
 }
 
 const SMART_FOLLOWUPS = {
-  'Education': ['What documents are required for admission?', 'When are semester exams conducted?'],
-  'E-commerce': ['How can I return my order?', 'What payment methods are accepted?'],
-  'Banking': ['How do I block my lost debit card?', 'How can I download my bank statement?'],
-  'Healthcare': ['How can I book a doctor appointment?', 'How can I get my lab test reports?'],
+  'Education': ['How can I apply for admission?', 'What documents are required for admission?', 'When are semester exams conducted?'],
+  'E-commerce': ['How can I return my order?', 'How can I track my order?', 'What payment methods are accepted?'],
+  'Banking': ['How do I block my lost debit card?', 'How can I change my ATM PIN?', 'How can I check my account balance?'],
+  'Healthcare': ['How can I book a doctor appointment?', 'How can I get my lab test reports?', 'What are the hospital visiting hours?'],
   'Food Delivery': ['Why is my food order delayed?', 'My food arrived cold and damaged'],
-  'Software / Technology': ['I forgot my password. How do I reset it?', 'How do I clear browser cache and cookies?'],
-  'Travel': ['How can I cancel my ticket and get a refund?', 'What are the baggage allowance rules?'],
+  'Software / Technology': ['I forgot my password. How do I reset it?', 'How do I enable two-factor authentication (2FA)?', 'How do I clear browser cache and cookies?'],
+  'Travel': ['How can I book a flight ticket?', 'How can I cancel my ticket and get a refund?', 'What are the baggage allowance rules?'],
   'Public Services': ['How can I apply for official government certificates?', 'How can I file a public grievance?'],
-  'Career': ['How can I create an impressive resume?', 'How can I prepare for job interviews?'],
-  'General Support': ['How can I contact customer support?', 'What are your support operating hours?'],
+  'Career': ['How can I create an impressive resume?', 'How can I prepare for job interviews?', 'How can I find internships?'],
+  'General Support': ['How can I contact customer support?', 'What are your customer support operating hours?'],
 }
 
 // ─── User Bubble ──────────────────────────────────────────────────────────────
@@ -77,7 +77,15 @@ function BotBubble({ message, onChipClick }) {
 
   const categoryName = message.category || 'General Support'
   const categoryEmoji = CATEGORY_EMOJIS[categoryName] || '💬'
-  const followups = SMART_FOLLOWUPS[categoryName] || []
+  
+  // Filter out follow-ups that match the question that was just answered
+  const rawFollowups = SMART_FOLLOWUPS[categoryName] || []
+  const filteredFollowups = rawFollowups.filter((q) => {
+    const qLower = q.toLowerCase().replace(/[^a-z0-9]/g, '')
+    const matchedLower = (message.matchedQuestion || '').toLowerCase().replace(/[^a-z0-9]/g, '')
+    const contentLower = (message.content || '').toLowerCase().replace(/[^a-z0-9]/g, '')
+    return qLower !== matchedLower && !contentLower.includes(qLower)
+  })
 
   return (
     <div className="w-full max-w-4xl flex items-start gap-3.5 chat-bubble-enter">
@@ -169,31 +177,38 @@ function BotBubble({ message, onChipClick }) {
           </div>
         </div>
 
-        {/* Smart Warm Follow-up Chips */}
-        {!message.isFallback && !message.isConversational && followups.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2 mt-1 ml-1">
-            <span className="text-[11px] text-slate-400 font-medium">Related:</span>
-            {followups.map((q, idx) => (
+        {/* Sleek, User-Friendly Follow-up Quick Action Pills */}
+        {!message.isFallback && !message.isConversational && filteredFollowups.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2 mt-1.5 ml-1">
+            <span className="text-[11px] font-semibold text-[var(--theme-accent)] flex items-center gap-1 mr-0.5">
+              <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
+              <span>Suggested next:</span>
+            </span>
+            {filteredFollowups.map((q, idx) => (
               <button
                 key={idx}
                 onClick={() => onChipClick?.(q)}
-                className="px-2.5 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-[var(--theme-border)] text-slate-300 hover:text-white text-[11.5px] transition-all cursor-pointer"
+                className="group inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/[0.04] hover:bg-[var(--theme-primary)]/20 border border-[var(--theme-border)] hover:border-[var(--theme-accent)] text-slate-300 hover:text-white text-[11.5px] font-medium transition-all duration-200 cursor-pointer shadow-sm hover:shadow-[0_0_12px_var(--theme-glow)] active:scale-95"
               >
-                {q}
+                <span>{q}</span>
+                <span className="material-symbols-outlined text-[13px] text-[var(--theme-accent)] group-hover:translate-x-0.5 transition-transform">
+                  arrow_forward
+                </span>
               </button>
             ))}
           </div>
         )}
 
-        {/* Fallback suggestion chips when unmatched */}
-        {message.isFallback && <FallbackCard onChipClick={onChipClick} />}
+        {/* Fallback Smart Suggestions */}
+        {message.isFallback && (
+          <FallbackCard onChipClick={onChipClick} />
+        )}
 
       </div>
     </div>
   )
 }
 
-// ─── Main export ──────────────────────────────────────────────────────────────
 export default function MessageBubble({ message, onChipClick }) {
   if (message.role === 'user') {
     return <UserBubble message={message} />
