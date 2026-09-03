@@ -1,6 +1,6 @@
 import { useChatContext } from '../context/ChatContext'
 
-export default function Header({ onClearChat, onOpenSettings, onToggleSidebar, onSecretDevTrigger, isDevMode }) {
+export default function Header({ onClearChat, onExportChat, onOpenSettings, onToggleSidebar, onSecretDevTrigger, isDevMode }) {
   const { messages } = useChatContext()
 
   return (
@@ -22,7 +22,7 @@ export default function Header({ onClearChat, onOpenSettings, onToggleSidebar, o
         <div 
           onClick={onSecretDevTrigger}
           className="relative flex-shrink-0 cursor-pointer select-none group"
-          title="AIRA Assistant"
+          title="AIRA Assistant (Click 3x for Dev Settings)"
         >
           <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl theme-button flex items-center justify-center shadow-lg text-white font-black text-[16px] sm:text-[18px] tracking-wider transition-transform group-hover:scale-105 active:scale-95">
             A
@@ -52,7 +52,7 @@ export default function Header({ onClearChat, onOpenSettings, onToggleSidebar, o
       </div>
 
       {/* Right: Action Buttons */}
-      <div className="flex items-center gap-2 sm:gap-2.5">
+      <div className="flex items-center gap-1.5 sm:gap-2">
         {/* Developer-Only Settings Button (Hidden from regular users) */}
         {isDevMode && onOpenSettings && (
           <button
@@ -63,6 +63,19 @@ export default function Header({ onClearChat, onOpenSettings, onToggleSidebar, o
           >
             <span className="material-symbols-outlined text-[17px] text-[var(--theme-accent)]">code</span>
             <span className="hidden sm:inline">Dev Config</span>
+          </button>
+        )}
+
+        {/* Export / Download Transcript Button */}
+        {messages.length > 0 && onExportChat && (
+          <button
+            onClick={onExportChat}
+            className="flex items-center gap-1 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-[var(--theme-border)] text-slate-300 hover:text-white text-[12px] sm:text-[13px] font-semibold transition-all cursor-pointer shadow-sm active:scale-95"
+            title="Download Chat Transcript (.txt)"
+            aria-label="Download Transcript"
+          >
+            <span className="material-symbols-outlined text-[17px] text-[var(--theme-accent)]">download</span>
+            <span className="hidden md:inline">Save Chat</span>
           </button>
         )}
 

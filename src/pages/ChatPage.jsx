@@ -167,6 +167,7 @@ export default function ChatPage() {
         <div className="lg:pl-80 flex flex-col flex-1 min-h-screen w-full">
           <Header
             onClearChat={handleClearChat}
+            onExportChat={handleExportChat}
             onOpenProfile={() => setIsProfileOpen(true)}
             onOpenSettings={() => setIsSettingsOpen(true)}
             onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}

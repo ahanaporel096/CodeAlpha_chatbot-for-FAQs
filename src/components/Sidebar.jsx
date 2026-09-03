@@ -2,16 +2,16 @@ import { useState } from 'react'
 import { useChatContext } from '../context/ChatContext'
 
 const MULTI_DOMAINS = [
-  { id: 'Education', icon: 'school', label: 'Education', emoji: '🎓', question: 'How can I apply for admission?' },
-  { id: 'E-commerce', icon: 'shopping_bag', label: 'Shopping', emoji: '🛒', question: 'How can I return my order?' },
-  { id: 'Banking', icon: 'account_balance', label: 'Banking', emoji: '🏦', question: 'How do I block my lost debit card?' },
-  { id: 'Healthcare', icon: 'local_hospital', label: 'Healthcare', emoji: '🏥', question: 'How can I book a doctor appointment?' },
-  { id: 'Food Delivery', icon: 'fastfood', label: 'Food Delivery', emoji: '🍔', question: 'Why is my food order delayed?' },
-  { id: 'Software / Technology', icon: 'computer', label: 'Technology', emoji: '💻', question: 'I forgot my password. How do I reset it?' },
-  { id: 'Travel', icon: 'flight_takeoff', label: 'Travel', emoji: '✈️', question: 'How can I book a flight ticket?' },
-  { id: 'Public Services', icon: 'account_balance_wallet', label: 'Public Services', emoji: '🏛️', question: 'How can I apply for official government certificates?' },
-  { id: 'Career', icon: 'work', label: 'Career', emoji: '💼', question: 'How can I create an impressive resume?' },
-  { id: 'General Support', icon: 'support_agent', label: 'General Support', emoji: '💬', question: 'How can I contact customer support?' },
+  { id: 'Education', icon: 'school', label: 'Education & Admissions', emoji: '🎓', count: '18 FAQs', question: 'How can I apply for admission?' },
+  { id: 'E-commerce', icon: 'shopping_bag', label: 'Shopping & Orders', emoji: '🛒', count: '20 FAQs', question: 'How can I return my order?' },
+  { id: 'Banking', icon: 'account_balance', label: 'Banking & Cards', emoji: '🏦', count: '18 FAQs', question: 'How do I block my lost debit card?' },
+  { id: 'Healthcare', icon: 'local_hospital', label: 'Healthcare & Doctor', emoji: '🏥', count: '16 FAQs', question: 'How can I book a doctor appointment?' },
+  { id: 'Food Delivery', icon: 'fastfood', label: 'Food Delivery', emoji: '🍔', count: '14 FAQs', question: 'Why is my food order delayed?' },
+  { id: 'Software / Technology', icon: 'computer', label: 'Tech & Account Support', emoji: '💻', count: '18 FAQs', question: 'I forgot my password. How do I reset it?' },
+  { id: 'Travel', icon: 'flight_takeoff', label: 'Travel & Flights', emoji: '✈️', count: '15 FAQs', question: 'What are the baggage allowance rules?' },
+  { id: 'Public Services', icon: 'account_balance_wallet', label: 'Public Services', emoji: '🏛️', count: '12 FAQs', question: 'How can I apply for official government certificates?' },
+  { id: 'Career', icon: 'work', label: 'Career & Interviews', emoji: '💼', count: '16 FAQs', question: 'How can I create an impressive resume?' },
+  { id: 'General Support', icon: 'support_agent', label: 'General Helpdesk', emoji: '💬', count: '18 FAQs', question: 'How can I contact customer support?' },
 ]
 
 export default function Sidebar({ isOpen, onClose, onQuickQuestion, onOpenSettings, onSecretDevTrigger, isDevMode }) {
@@ -56,7 +56,7 @@ export default function Sidebar({ isOpen, onClose, onQuickQuestion, onOpenSettin
               <div 
                 onClick={onSecretDevTrigger}
                 className="flex items-center gap-3.5 cursor-pointer select-none"
-                title="AIRA Assistant"
+                title="AIRA Assistant (Click 3x for Dev Settings)"
               >
                 <div className="relative">
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl theme-button p-[2px] shadow-lg flex items-center justify-center text-white font-black text-[18px] sm:text-[20px] transition-transform group-hover:scale-105">
@@ -67,7 +67,7 @@ export default function Sidebar({ isOpen, onClose, onQuickQuestion, onOpenSettin
 
                 <div>
                   <h3 className="font-extrabold text-[16px] text-white tracking-tight">AIRA</h3>
-                  <p className="text-[11.5px] text-slate-400 font-medium">AI Responsive Assistant</p>
+                  <p className="text-[11px] text-slate-400 font-medium">10 Domains • 165+ FAQs</p>
                 </div>
               </div>
 
@@ -91,16 +91,24 @@ export default function Sidebar({ isOpen, onClose, onQuickQuestion, onOpenSettin
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search questions or domains..."
-              className="w-full pl-10 pr-3 py-2 rounded-xl bg-black/30 border border-[var(--theme-border)] focus:border-[var(--theme-primary)] focus:ring-1 focus:ring-[var(--theme-primary)] outline-none text-[13px] text-slate-200 placeholder:text-slate-500 transition-all"
+              placeholder="Search 10 domains or questions..."
+              className="w-full pl-10 pr-8 py-2 rounded-xl bg-black/30 border border-[var(--theme-border)] focus:border-[var(--theme-primary)] focus:ring-1 focus:ring-[var(--theme-primary)] outline-none text-[13px] text-slate-200 placeholder:text-slate-500 transition-all"
             />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm('')}
+                className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-200"
+              >
+                <span className="material-symbols-outlined text-[16px]">cancel</span>
+              </button>
+            )}
           </div>
 
           {/* Multi-Domain Categories */}
           <div className="space-y-1">
             <div className="flex items-center justify-between px-2 mb-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                Explore Topics (10 Domains)
+                Knowledge Domains ({filteredCategories.length})
               </span>
             </div>
 
@@ -118,23 +126,30 @@ export default function Sidebar({ isOpen, onClose, onQuickQuestion, onOpenSettin
                     }`}
                     title={`Ask: "${cat.question}"`}
                   >
-                    <div className="flex items-center gap-3 min-w-0">
+                    <div className="flex items-center gap-2.5 min-w-0">
                       <span className="text-[17px] flex-shrink-0">{cat.emoji}</span>
-                      <span className="text-[13.5px] font-semibold tracking-tight truncate">{cat.label}</span>
+                      <span className="text-[13px] font-semibold tracking-tight truncate">{cat.label}</span>
                     </div>
-                    <span className="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-80 transition-opacity text-slate-400">
-                      chevron_right
+                    <span className="text-[10px] font-mono text-slate-400 opacity-60 group-hover:opacity-100 flex-shrink-0">
+                      {cat.count}
                     </span>
                   </button>
                 )
               })}
+
+              {filteredCategories.length === 0 && (
+                <div className="p-4 text-center text-[12px] text-slate-400 bg-white/[0.02] rounded-xl border border-[var(--theme-border)]">
+                  <p className="font-semibold text-slate-300 mb-1">No matching topics found</p>
+                  <p className="text-[11px] text-slate-500">Try searching: <em>order, refund, card, doctor, password,</em> or <em>flight</em></p>
+                </div>
+              )}
             </nav>
           </div>
 
         </div>
 
         {/* Sidebar Footer: Clean Status & Dev Settings (when activated) */}
-        <div className="p-4 border-t border-[var(--theme-border)] bg-black/20">
+        <div className="p-3.5 border-t border-[var(--theme-border)] bg-black/20">
           {isDevMode ? (
             <button
               onClick={() => {
@@ -147,9 +162,12 @@ export default function Sidebar({ isOpen, onClose, onQuickQuestion, onOpenSettin
               <span>Developer AI Settings</span>
             </button>
           ) : (
-            <div className="flex items-center justify-center gap-2 py-1 text-[11.5px] text-slate-400 font-medium">
-              <span className="w-2 h-2 rounded-full bg-[var(--theme-accent)] animate-pulse" />
-              <span>AIRA Multi-Domain Assistant</span>
+            <div className="flex items-center justify-between px-2 py-1 text-[11px] text-slate-400 font-medium">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[var(--theme-accent)] animate-pulse" />
+                <span>AIRA Assistant Active</span>
+              </div>
+              <span className="text-[10px] font-mono text-slate-500">v2.0</span>
             </div>
           )}
         </div>
