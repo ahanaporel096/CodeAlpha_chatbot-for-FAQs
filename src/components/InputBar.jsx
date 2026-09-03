@@ -57,7 +57,7 @@ export default function InputBar({ onSend }) {
   }
 
   return (
-    <footer className="fixed bottom-0 left-80 right-0 p-6 bg-gradient-to-t from-[var(--theme-bg)] via-[var(--theme-bg)]/90 to-transparent z-30 pointer-events-none transition-colors duration-400">
+    <footer className="fixed bottom-0 left-0 lg:left-80 right-0 p-2.5 sm:p-4 md:p-6 bg-gradient-to-t from-[var(--theme-bg)] via-[var(--theme-bg)]/95 to-transparent z-30 pointer-events-none transition-colors duration-400">
       <div className="max-w-4xl mx-auto pointer-events-auto">
         
         {/* Glow Input Container */}
@@ -115,7 +115,7 @@ export default function InputBar({ onSend }) {
         </div>
 
         {/* Pro Tip Footer */}
-        <div className="flex items-center justify-center px-3 mt-2 text-[11px] text-slate-400 font-medium">
+        <div className="hidden sm:flex items-center justify-center px-3 mt-1.5 text-[11px] text-slate-400 font-medium">
           <span>💡 Press <kbd className="px-1.5 py-0.5 rounded bg-white/[0.08] border border-[var(--theme-border)] text-slate-300">Enter ↵</kbd> to ask AIRA anytime</span>
         </div>
 

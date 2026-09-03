@@ -32,30 +32,30 @@ export default function MobileChatPage({ onSendMessage, onOpenSettings }) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-surface">
+    <div className="flex flex-col min-h-screen bg-[var(--theme-bg)] text-slate-100">
       {/* Mobile Header */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe">
-        <div className="h-16 px-5 flex items-center justify-between gap-3">
+      <header className="fixed top-0 inset-x-0 z-50 bg-[var(--theme-bg)]/90 backdrop-blur-2xl shadow-[0_1px_12px_rgba(0,0,0,0.3)] border-b border-[var(--theme-border)]">
+        <div className="h-16 px-4 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <img src={LOGO_URL} alt="Logo" className="h-8 w-auto object-contain" />
             <div className="flex flex-col">
-              <span className="text-headline-md font-semibold text-primary">Chat Assistant</span>
+              <span className="text-[15px] font-semibold text-white">Chat Assistant</span>
               <div className="flex items-center gap-1.5">
                 <div
                   className={`w-2 h-2 rounded-full ${
                     isAIActive ? 'bg-tertiary-fixed-dim' : 'bg-primary-fixed-dim'
                   } status-pulse`}
                 />
-                <span className="text-label-sm text-on-surface-variant">
-                  {isAIActive ? 'AI Active' : 'FAQ Mode'}
-                </span>
+                <span className="text-[11px] text-slate-400">
+                {isAIActive ? 'AI Active' : 'FAQ Mode'}
+              </span>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={onOpenSettings}
-              className="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant relative"
+              className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-slate-300 relative"
               aria-label="Settings"
             >
               <span className="material-symbols-outlined text-[20px]">tune</span>
@@ -63,8 +63,8 @@ export default function MobileChatPage({ onSendMessage, onOpenSettings }) {
                 <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-tertiary-fixed-dim shadow-[0_0_4px_#4ae176]" />
               )}
             </button>
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-              <span className="material-symbols-outlined text-on-primary text-[18px]">person</span>
+            <div className="w-8 h-8 rounded-full bg-[var(--theme-primary)] flex items-center justify-center">
+              <span className="material-symbols-outlined text-white text-[18px]">person</span>
             </div>
           </div>
         </div>
@@ -87,16 +87,16 @@ export default function MobileChatPage({ onSendMessage, onOpenSettings }) {
               <div className="w-8 h-8 rounded-full bg-secondary-container flex-shrink-0 flex items-center justify-center shadow-sm">
                 <span className="material-symbols-outlined text-on-secondary-container text-[18px]">school</span>
               </div>
-              <div className="bg-surface-container-lowest text-primary p-4 rounded-2xl rounded-bl-sm shadow-sm ring-1 ring-outline-variant/20">
+              <div className="bg-[var(--theme-surface)] border border-[var(--theme-border)] text-slate-200 p-4 rounded-2xl rounded-bl-sm shadow-sm">
                 <p className="text-[15px] leading-[22px]">
                   👋 Welcome! I'm your FAQ Assistant. Ask me anything about admissions, hostel, fees, or placements!
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
                   {['Admission Documents', 'Hostel Availability', 'Tuition Fees'].map((q) => (
-                    <button
+                      <button
                       key={q}
                       onClick={() => onSendMessage(q)}
-                      className="bg-surface-container-lowest text-primary px-4 py-2 rounded-full ring-1 ring-primary/30 text-label-md font-semibold transition-colors hover:bg-primary-fixed hover:ring-primary shadow-sm"
+                      className="bg-[var(--theme-surface)] text-[var(--theme-accent)] px-4 py-2 rounded-full border border-[var(--theme-border)] text-[13px] font-semibold transition-colors hover:bg-white/10 shadow-sm"
                     >
                       {q}
                     </button>
@@ -121,8 +121,8 @@ export default function MobileChatPage({ onSendMessage, onOpenSettings }) {
       </main>
 
       {/* Mobile Input — docked above bottom nav */}
-      <div className="fixed bottom-16 inset-x-0 px-4 py-3 bg-surface/90 backdrop-blur-xl shadow-[0_-4px_16px_rgba(0,0,0,0.02)] z-40">
-        <div className="relative flex items-center w-full bg-surface-container-lowest rounded-full shadow-sm ring-1 ring-outline-variant/40 focus-within:ring-2 focus-within:ring-primary transition-all">
+      <div className="fixed bottom-16 inset-x-0 px-3 py-3 bg-[var(--theme-bg)]/90 backdrop-blur-2xl border-t border-[var(--theme-border)] z-40">
+        <div className="relative flex items-center w-full bg-[var(--theme-surface)] rounded-full border border-[var(--theme-border)] focus-within:border-[var(--theme-primary)] focus-within:ring-1 focus-within:ring-[var(--theme-primary)] transition-all">
           <button className="pl-4 pr-2 text-outline hover:text-primary transition-colors">
             <span className="material-symbols-outlined">add_circle</span>
           </button>
@@ -130,7 +130,7 @@ export default function MobileChatPage({ onSendMessage, onOpenSettings }) {
             value={inputValue}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent border-none outline-none text-body-md text-on-surface placeholder:text-outline-variant py-3 min-w-0"
+            className="flex-1 bg-transparent border-none outline-none text-[14px] text-slate-200 placeholder:text-slate-500 py-3 min-w-0"
             placeholder="Type a message…"
             type="text"
           />

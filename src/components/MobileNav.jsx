@@ -6,7 +6,7 @@ const NAV_ITEMS = [
 
 export default function MobileNav({ activeTab = 'chat', onTabChange }) {
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.06)]">
+    <nav className="fixed bottom-0 inset-x-0 z-50 bg-[var(--theme-bg)]/95 backdrop-blur-2xl border-t border-[var(--theme-border)]">
       <div className="flex justify-around items-center h-16 px-4">
         {NAV_ITEMS.map((item) => {
           const isActive = activeTab === item.path
@@ -15,7 +15,7 @@ export default function MobileNav({ activeTab = 'chat', onTabChange }) {
               key={item.path}
               onClick={() => onTabChange?.(item.path)}
               className={`flex flex-col items-center justify-center gap-0.5 w-16 h-full transition-colors
-                ${isActive ? 'text-primary' : 'text-on-surface-variant'}`}
+                ${isActive ? 'text-[var(--theme-accent)]' : 'text-slate-500'}`}
               aria-current={isActive ? 'page' : undefined}
             >
               <span
@@ -24,7 +24,7 @@ export default function MobileNav({ activeTab = 'chat', onTabChange }) {
               >
                 {item.icon}
               </span>
-              <span className="text-label-sm font-medium">{item.label}</span>
+              <span className="text-[11px] font-medium">{item.label}</span>
             </button>
           )
         })}

@@ -51,7 +51,7 @@ const STARTER_CARDS = [
 
 export default function WelcomeScreen({ onAsk }) {
   return (
-    <div className="flex flex-col w-full h-full min-h-[calc(100vh-10rem)] items-center justify-center px-6 py-8 relative">
+    <div className="flex flex-col w-full h-full min-h-[calc(100vh-10rem)] items-center justify-center px-4 sm:px-6 py-8 relative">
       
       {/* Background ambient lighting */}
       <div className="ambient-glow-1 top-10 left-1/4" />
@@ -85,7 +85,7 @@ export default function WelcomeScreen({ onAsk }) {
             <span>Always here to help you 24/7</span>
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
             Hello friend! I'm <span className="theme-text-gradient">AIRA</span> 👋
           </h2>
 
@@ -99,7 +99,7 @@ export default function WelcomeScreen({ onAsk }) {
         </div>
 
         {/* 6 Interactive Multi-Domain Starter Cards */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {STARTER_CARDS.map((card) => (
             <button
               key={card.id}

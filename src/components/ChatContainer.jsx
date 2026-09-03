@@ -15,7 +15,7 @@ export default function ChatContainer({ onSendMessage, onOpenDocsModal }) {
   const hasMessages = messages.length > 0
 
   return (
-    <main className="flex-1 pt-20 pb-36 w-full bg-[var(--theme-bg)] relative min-h-screen transition-colors duration-400">
+    <main className="flex-1 pt-18 sm:pt-20 pb-28 sm:pb-36 w-full bg-[var(--theme-bg)] relative min-h-screen transition-colors duration-400">
       
       {/* Ambient background mesh patterns */}
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
@@ -38,7 +38,7 @@ export default function ChatContainer({ onSendMessage, onOpenDocsModal }) {
         {!hasMessages ? (
           <WelcomeScreen onAsk={onSendMessage} />
         ) : (
-          <div className="flex flex-col items-center px-6 py-6 space-y-5">
+          <div className="flex flex-col items-center px-3 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-5">
             {messages.map((msg) => (
               <MessageBubble
                 key={msg.id}

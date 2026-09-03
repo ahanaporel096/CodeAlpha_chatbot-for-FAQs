@@ -30,29 +30,44 @@ export const AVAILABLE_MODELS = {
 const STORAGE_KEY = 'smart_faq_ai_config'
 
 export function getAIConfig() {
+  const envGeminiKey = import.meta.env?.VITE_GEMINI_API_KEY || ''
+  const envGroqKey = import.meta.env?.VITE_GROQ_API_KEY || ''
+  const defaultApiKey = envGeminiKey || envGroqKey || ''
+  const defaultProvider = envGroqKey && !envGeminiKey ? PROVIDERS.GROQ : PROVIDERS.GEMINI
+
+  const defaultSystemPrompt =
+    'You are AIRA (AI Responsive Assistant), a friendly, helpful, polite, and highly accurate multi-domain AI assistant. You provide clear, concise, and structured answers across all domains including: E-commerce & Shopping 🛒, Banking & Finance 🏦, Healthcare & Medicine 🏥, Software & Technology Support 💻, Food Delivery 🍔, Travel & Flights ✈️, Public Services 🏛️, Career & Job Guidance 💼, Education & Admissions 🎓, and general day-to-day assistance. Always address the user\'s specific question directly with accurate, step-by-step guidance and relevant tips.'
+
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) {
       return {
-        provider: PROVIDERS.GEMINI,
-        apiKey: '',
-        model: DEFAULT_MODELS[PROVIDERS.GEMINI],
-        enabled: false,
-        useAsFallbackOnly: true, // If true, only triggers when FAQ confidence is low
-        systemPrompt:
-          'You are the official Smart Academic FAQ & Campus Advisor Assistant for the institution. You provide accurate, helpful, polite, and concise answers about admissions, courses, fees, scholarships, hostel life, campus facilities, and academic schedules.',
+        provider: defaultProvider,
+        apiKey: defaultApiKey,
+        model: DEFAULT_MODELS[defaultProvider],
+        enabled: Boolean(defaultApiKey),
+        useAsFallbackOnly: true, // Triggers when local FAQ confidence is low
+        systemPrompt: defaultSystemPrompt,
       }
     }
-    return JSON.parse(raw)
+    const parsed = JSON.parse(raw)
+    return {
+      provider: parsed.provider || defaultProvider,
+      apiKey: parsed.apiKey || defaultApiKey,
+      model: parsed.model || DEFAULT_MODELS[parsed.provider || defaultProvider],
+      enabled: parsed.enabled ?? Boolean(parsed.apiKey || defaultApiKey),
+      useAsFallbackOnly: parsed.useAsFallbackOnly ?? true,
+      systemPrompt: parsed.systemPrompt || defaultSystemPrompt,
+    }
   } catch (err) {
     console.error('Failed to parse AI config from localStorage', err)
     return {
-      provider: PROVIDERS.GEMINI,
-      apiKey: '',
-      model: DEFAULT_MODELS[PROVIDERS.GEMINI],
-      enabled: false,
+      provider: defaultProvider,
+      apiKey: defaultApiKey,
+      model: DEFAULT_MODELS[defaultProvider],
+      enabled: Boolean(defaultApiKey),
       useAsFallbackOnly: true,
-      systemPrompt: '',
+      systemPrompt: defaultSystemPrompt,
     }
   }
 }
@@ -77,10 +92,11 @@ async function callGemini({ apiKey, model, messages, systemPrompt, faqContext })
   // Format contents for Gemini
   const contents = []
 
-  // Add system instruction / knowledge context as user/model priming or systemInstruction
-  let enrichedSystemPrompt = systemPrompt || 'You are an academic advisor FAQ chatbot.'
+  // Add system instruction / knowledge context
+  let enrichedSystemPrompt = systemPrompt || 'You are AIRA, a multi-domain AI assistant.'
   if (faqContext && faqContext.length > 0) {
-    enrichedSystemPrompt += `\n\nReference Campus FAQs for context:\n${faqContext
+    enrichedSystemPrompt += `\n\nReference Multi-Domain FAQs for context:\n${faqContext
+      .slice(0, 30)
       .map((f) => `Q: ${f.question}\nA: ${f.answer}`)
       .join('\n\n')}`
   }
@@ -134,9 +150,10 @@ async function callGroq({ apiKey, model, messages, systemPrompt, faqContext }) {
   const modelName = model || 'llama-3.3-70b-versatile'
   const url = 'https://api.groq.com/openai/v1/chat/completions'
 
-  let enrichedSystemPrompt = systemPrompt || 'You are an academic advisor FAQ chatbot.'
+  let enrichedSystemPrompt = systemPrompt || 'You are AIRA, a multi-domain AI assistant.'
   if (faqContext && faqContext.length > 0) {
-    enrichedSystemPrompt += `\n\nReference Campus FAQs for context:\n${faqContext
+    enrichedSystemPrompt += `\n\nReference Multi-Domain FAQs for context:\n${faqContext
+      .slice(0, 30)
       .map((f) => `Q: ${f.question}\nA: ${f.answer}`)
       .join('\n\n')}`
   }

@@ -61,7 +61,7 @@ export function useChat() {
     [sessionId]
   )
 
-  // ─── Query Python Flask NLP (TF-IDF + Cosine Similarity) Backend ───────────
+  // ─── Query Python Flask REST API (if available) ────────────────────────────
   const queryPythonBackend = useCallback(async (userMessage) => {
     try {
       const response = await fetch('/api/chat', {
@@ -78,8 +78,8 @@ export function useChat() {
 
       const data = await response.json()
       return data
-    } catch (err) {
-      console.warn('[useChat] Python Flask backend not reachable or error:', err.message)
+    } catch {
+      // Python backend is optional / client-first
       return null
     }
   }, [])
@@ -92,7 +92,7 @@ export function useChat() {
       const userText = text.trim()
       const aiConfig = getAIConfig()
 
-      // Add user message to UI
+      // 1. Add user message to UI
       addMessage({ role: 'user', content: userText })
 
       // Persist user message
@@ -102,43 +102,43 @@ export function useChat() {
       setTyping(true)
 
       let result = null
-      const forceAI = aiConfig.enabled && aiConfig.apiKey && !aiConfig.useAsFallbackOnly
+      const forceAI = aiConfig.enabled && Boolean(aiConfig.apiKey) && !aiConfig.useAsFallbackOnly
 
-      // 1. Try Python Flask REST API (NLP + TF-IDF + Cosine Similarity)
+      // 2. Client-side Multi-Domain NLP Matcher (High accuracy on all 10 domains)
       if (!forceAI) {
-        const backendData = await queryPythonBackend(userText)
-        if (backendData && backendData.answer) {
-          result = {
-            answer: backendData.answer,
-            confidence: Math.round((backendData.confidence || 0) * 100),
-            matchedQuestion: backendData.matched_question,
-            category: backendData.category,
-            isMatched: backendData.is_matched,
-            source: 'Python NLP (TF-IDF & Cosine Similarity)',
-          }
-        }
-      }
-
-      // 2. Fallback to client-side NLP / local FAQ matcher if Python backend is offline
-      if (!result && !forceAI) {
         const localMatch = findBestMatch(userText, LOCAL_FAQS)
-        if (localMatch) {
+        if (localMatch && localMatch.faq) {
           result = {
             answer: localMatch.faq.answer,
             confidence: localMatch.confidence,
             matchedQuestion: localMatch.faq.question,
             category: localMatch.faq.category,
             isMatched: true,
-            source: 'Local Client Matcher',
+            source: 'AIRA Multi-Domain NLP Matcher',
           }
         }
       }
 
-      // 3. Determine if we should invoke Google Gemini or Groq AI fallback
+      // 3. If local match had low confidence, try Python Flask Backend if running
+      if (!result && !forceAI) {
+        const backendData = await queryPythonBackend(userText)
+        if (backendData && backendData.answer && backendData.is_matched) {
+          result = {
+            answer: backendData.answer,
+            confidence: Math.round((backendData.confidence || 0) * 100),
+            matchedQuestion: backendData.matched_question,
+            category: backendData.category,
+            isMatched: true,
+            source: 'Python NLP Backend',
+          }
+        }
+      }
+
+      // 4. If AI API is configured (Google Gemini / Groq) and query needs intelligent answer
       const shouldUseAI =
         aiConfig.enabled &&
-        aiConfig.apiKey &&
-        (forceAI || !result || !result.isMatched || result.confidence < 30)
+        Boolean(aiConfig.apiKey) &&
+        (forceAI || !result || !result.isMatched || result.confidence < 45)
 
       if (shouldUseAI) {
         try {
@@ -151,35 +151,36 @@ export function useChat() {
           if (aiResult?.text) {
             setTyping(false)
             const providerLabel =
-              aiResult.provider === PROVIDERS.GROQ ? 'Groq' : 'Google Gemini'
+              aiResult.provider === PROVIDERS.GROQ ? 'Groq AI' : 'Google Gemini'
 
             addMessage({
               role: 'bot',
               content: aiResult.text,
-              confidence: 95,
+              confidence: 98,
               isAI: true,
               aiProvider: providerLabel,
               aiModel: aiResult.model,
+              category: 'AIRA Multi-Domain AI',
             })
 
             persistMessage({
               role: 'bot',
               content: aiResult.text,
-              confidence: 0.95,
+              confidence: 0.98,
             })
             return
           }
         } catch (aiErr) {
-          console.warn('[useChat] AI fallback failed, using FAQ/fallback.', aiErr)
+          console.warn('[useChat] AI response generation failed, falling back to local result.', aiErr)
         }
       }
 
-      // Smooth artificial delay
-      await new Promise((r) => setTimeout(r, 400 + Math.random() * 300))
+      // Small realistic response delay
+      await new Promise((r) => setTimeout(r, 350 + Math.random() * 250))
       setTyping(false)
 
       if (result && result.isMatched) {
-        // High-confidence NLP FAQ match
+        // High-confidence exact multi-domain FAQ match
         addMessage({
           role: 'bot',
           content: result.answer,
@@ -194,19 +195,19 @@ export function useChat() {
           confidence: result.confidence / 100,
         })
       } else {
-        // Unmatched / Out-of-scope query
+        // Safe out-of-scope fallback (Never return a false wrong answer!)
         addMessage({
           role: 'bot',
           content:
-            result?.answer ||
-            "I'm sorry, I couldn't find a relevant answer to your question in our FAQ knowledge base. Try asking about admissions, fees, scholarships, hostel facilities, timings, or placements.",
-          confidence: result?.confidence || 0,
+            "I'm here to help! I couldn't find an exact answer for that in our instant FAQ library. You can ask me about Shopping & Orders 🛒, Banking & Cards 🏦, Doctor Appointments 🏥, Password & Tech Support 💻, Food Delivery 🍔, Flight Bookings ✈️, Admissions 🎓, or configure a free AI API key in Settings (⚙️) for answering any custom question!",
+          confidence: 0,
           isFallback: true,
+          category: 'General Support',
         })
 
         persistMessage({
           role: 'bot',
-          content: result?.answer || "I couldn't find a relevant answer.",
+          content: "I couldn't find an exact answer for that.",
           confidence: 0,
         })
       }
