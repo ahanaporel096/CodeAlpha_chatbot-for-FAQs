@@ -15,16 +15,61 @@ const CATEGORY_EMOJIS = {
 }
 
 const SMART_FOLLOWUPS = {
-  'Education': ['How can I apply for admission?', 'What documents are required for admission?', 'When are semester exams conducted?'],
-  'E-commerce': ['How can I return my order?', 'How can I track my order?', 'What payment methods are accepted?'],
-  'Banking': ['How do I block my lost debit card?', 'How can I change my ATM PIN?', 'How can I check my account balance?'],
-  'Healthcare': ['How can I book a doctor appointment?', 'How can I get my lab test reports?', 'What are the hospital visiting hours?'],
-  'Food Delivery': ['Why is my food order delayed?', 'My food arrived cold and damaged'],
-  'Software / Technology': ['I forgot my password. How do I reset it?', 'How do I enable two-factor authentication (2FA)?', 'How do I clear browser cache and cookies?'],
-  'Travel': ['How can I book a flight ticket?', 'How can I cancel my ticket and get a refund?', 'What are the baggage allowance rules?'],
-  'Public Services': ['How can I apply for official government certificates?', 'How can I file a public grievance?'],
-  'Career': ['How can I create an impressive resume?', 'How can I prepare for job interviews?', 'How can I find internships?'],
-  'General Support': ['How can I contact customer support?', 'What are your customer support operating hours?'],
+  'Education': [
+    'What documents are required for admission?',
+    'What is the fee structure and how can I pay?',
+    'When are semester exams conducted?',
+    'Is hostel accommodation available and how to apply?',
+    'What is the placement record?'
+  ],
+  'E-commerce': [
+    'How can I track my order and where is my package?',
+    'How long does delivery take and is express shipping available?',
+    'How long does a refund take to credit to my account?',
+    'What payment methods are accepted and is Cash on Delivery available?',
+    'Money was deducted but my order failed'
+  ],
+  'Banking': [
+    'How do I block my lost debit card?',
+    'How can I change or reset my ATM PIN?',
+    'How can I check my account balance and download bank statement?',
+    'How can I transfer money using UPI, NEFT, RTGS, or IMPS?',
+    'How can I report an unauthorized or fraudulent transaction?'
+  ],
+  'Healthcare': [
+    'What documents should I bring to my appointment?',
+    'How can I get my lab test reports?',
+    'What are the hospital OPD and patient visiting hours?',
+    'Is ambulance and emergency service available?'
+  ],
+  'Food Delivery': [
+    'Why is my food order delayed?',
+    'My food arrived cold and damaged',
+    'How can I contact customer support?'
+  ],
+  'Software / Technology': [
+    'I forgot my password. How do I reset it?',
+    'How do I enable two-factor authentication (2FA)?',
+    'How do I clear browser cache and cookies?'
+  ],
+  'Travel': [
+    'How can I book a flight ticket?',
+    'How can I cancel my ticket and get a refund?',
+    'What are the baggage allowance rules?'
+  ],
+  'Public Services': [
+    'How can I apply for official government certificates?',
+    'How can I file a public grievance or complaint?'
+  ],
+  'Career': [
+    'How can I create an impressive resume?',
+    'How can I prepare for job interviews?',
+    'How can I find internships?'
+  ],
+  'General Support': [
+    'How can I contact customer support?',
+    'What are your customer support operating hours?'
+  ],
 }
 
 // ─── User Bubble ──────────────────────────────────────────────────────────────
@@ -49,10 +94,11 @@ function UserBubble({ message }) {
 }
 
 // ─── AIRA Bot Bubble ──────────────────────────────────────────────────────────
-function BotBubble({ message, onChipClick }) {
+function BotBubble({ message, onChipClick, isLatest = false, allMessages = [] }) {
   const [copied, setCopied] = useState(false)
   const [speaking, setSpeaking] = useState(false)
   const [feedback, setFeedback] = useState(null)
+  const [isDismissed, setIsDismissed] = useState(false)
 
   const handleCopy = () => {
     navigator.clipboard.writeText(message.content)
@@ -77,15 +123,33 @@ function BotBubble({ message, onChipClick }) {
 
   const categoryName = message.category || 'General Support'
   const categoryEmoji = CATEGORY_EMOJIS[categoryName] || '💬'
-  
-  // Filter out follow-ups that match the question that was just answered
-  const rawFollowups = SMART_FOLLOWUPS[categoryName] || []
-  const filteredFollowups = rawFollowups.filter((q) => {
-    const qLower = q.toLowerCase().replace(/[^a-z0-9]/g, '')
-    const matchedLower = (message.matchedQuestion || '').toLowerCase().replace(/[^a-z0-9]/g, '')
-    const contentLower = (message.content || '').toLowerCase().replace(/[^a-z0-9]/g, '')
-    return qLower !== matchedLower && !contentLower.includes(qLower)
-  })
+
+  // Build a normalized history of all user queries and questions already in conversation
+  const askedQuestionsSet = new Set(
+    allMessages.map((m) => (m.content || '').toLowerCase().replace(/[^a-z0-9]/g, ''))
+  )
+  if (message.matchedQuestion) {
+    askedQuestionsSet.add(message.matchedQuestion.toLowerCase().replace(/[^a-z0-9]/g, ''))
+  }
+
+  // Get category follow-ups and filter out ANY question that has already been asked in the chat
+  const rawFollowups = SMART_FOLLOWUPS[categoryName] || [
+    'How can I contact customer support?',
+    'How do I reset my password?'
+  ]
+
+  const filteredFollowups = rawFollowups
+    .filter((q) => {
+      const qNorm = q.toLowerCase().replace(/[^a-z0-9]/g, '')
+      // Check if this question was already asked anywhere in the chat
+      for (const asked of askedQuestionsSet) {
+        if (asked.includes(qNorm) || qNorm.includes(asked)) {
+          return false
+        }
+      }
+      return true
+    })
+    .slice(0, 2) // Max 2 clean, fresh suggestions
 
   return (
     <div className="w-full max-w-4xl flex items-start gap-3.5 chat-bubble-enter">
@@ -177,9 +241,9 @@ function BotBubble({ message, onChipClick }) {
           </div>
         </div>
 
-        {/* Sleek, User-Friendly Follow-up Quick Action Pills */}
-        {!message.isFallback && !message.isConversational && filteredFollowups.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2 mt-1.5 ml-1">
+        {/* ONLY Render Suggested Next on the LATEST Bot Message, with zero duplicate questions */}
+        {isLatest && !isDismissed && !message.isFallback && !message.isConversational && filteredFollowups.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2 mt-1.5 ml-1 animate-fadeIn">
             <span className="text-[11px] font-semibold text-[var(--theme-accent)] flex items-center gap-1 mr-0.5">
               <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
               <span>Suggested next:</span>
@@ -196,6 +260,15 @@ function BotBubble({ message, onChipClick }) {
                 </span>
               </button>
             ))}
+
+            {/* Subtle Dismiss Button */}
+            <button
+              onClick={() => setIsDismissed(true)}
+              className="p-1 rounded-full text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+              title="Hide suggestions"
+            >
+              <span className="material-symbols-outlined text-[14px]">close</span>
+            </button>
           </div>
         )}
 
@@ -209,9 +282,16 @@ function BotBubble({ message, onChipClick }) {
   )
 }
 
-export default function MessageBubble({ message, onChipClick }) {
+export default function MessageBubble({ message, onChipClick, isLatest, allMessages }) {
   if (message.role === 'user') {
     return <UserBubble message={message} />
   }
-  return <BotBubble message={message} onChipClick={onChipClick} />
+  return (
+    <BotBubble
+      message={message}
+      onChipClick={onChipClick}
+      isLatest={isLatest}
+      allMessages={allMessages}
+    />
+  )
 }

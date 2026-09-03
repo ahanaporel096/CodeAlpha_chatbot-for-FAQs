@@ -39,14 +39,19 @@ export default function ChatContainer({ onSendMessage, onOpenDocsModal }) {
           <WelcomeScreen onAsk={onSendMessage} />
         ) : (
           <div className="flex flex-col items-center px-3 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-5">
-            {messages.map((msg) => (
-              <MessageBubble
-                key={msg.id}
-                message={msg}
-                onChipClick={onSendMessage}
-                onOpenDocsModal={onOpenDocsModal}
-              />
-            ))}
+            {messages.map((msg, idx) => {
+              const isLatest = idx === messages.length - 1 && !isTyping
+              return (
+                <MessageBubble
+                  key={msg.id}
+                  message={msg}
+                  isLatest={isLatest}
+                  allMessages={messages}
+                  onChipClick={onSendMessage}
+                  onOpenDocsModal={onOpenDocsModal}
+                />
+              )
+            })}
 
             {isTyping && <TypingIndicator />}
             <div ref={bottomRef} />
